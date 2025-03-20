@@ -9,6 +9,7 @@ import {
   FiSettings,
   FiMenu,
 } from "react-icons/fi";
+import SuperAdminHeader from "@/components/sadmin/superAdminHeader";
 
 const navItems = [
   { name: "Dashboard", path: "/", icon: <FiGrid /> },
@@ -22,32 +23,45 @@ const SuperAdmin = () => {
   const router = useRouter();
 
   return (
-    <div className={styles.container}>
-      <button className={styles.menuButton} onClick={() => setIsOpen(!isOpen)}>
-        <FiMenu />
-      </button>
-      <nav
-        className={`${styles.sidebar} ${isOpen ? styles.open : styles.closed}`}
-      >
-        <div className={styles.logo}>{isOpen}</div>
-        <ul className={styles.nav}>
-          {navItems.map((item) => (
-            <li
-              key={item.name}
-              className={`${styles.navItem} ${router.pathname === item.path ? styles.active : ""}`}
-            >
-              <Link href={item.path}>
-                <span className={styles.icon}>{item.icon}</span>
-                <span
-                  className={`${styles.label} ${isOpen ? styles.show : styles.hide}`}
-                >
-                  {item.name}
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
+    <div>
+      <SuperAdminHeader
+        title={"Keeping Faith"}
+        user={{
+          name: "Stella Eneh",
+          role: "User",
+          avatarUrl: undefined,
+        }}
+      />
+      <div className={styles.container}>
+        <button
+          className={styles.menuButton}
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <FiMenu />
+        </button>
+        <nav
+          className={`${styles.sidebar} ${isOpen ? styles.open : styles.closed}`}
+        >
+          <div className={styles.logo}>{isOpen}</div>
+          <ul className={styles.nav}>
+            {navItems.map((item) => (
+              <li
+                key={item.name}
+                className={`${styles.navItem} ${router.pathname === item.path ? styles.active : ""}`}
+              >
+                <Link href={item.path}>
+                  <span className={styles.icon}>{item.icon}</span>
+                  <span
+                    className={`${styles.label} ${isOpen ? styles.show : styles.hide}`}
+                  >
+                    {item.name}
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
     </div>
   );
 };
