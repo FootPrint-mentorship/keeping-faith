@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import styles from "../styles/superadmin.module.scss";
@@ -10,15 +10,20 @@ import {
   FiMenu,
 } from "react-icons/fi";
 import SuperAdminHeader from "@/components/sadmin/superAdminHeader";
+import SuperAdminDashboard from "@/components/sadmin/superAdminDashboard";
+
+interface SuperAdminProps {
+  children?: ReactNode;
+}
 
 const navItems = [
-  { name: "Dashboard", path: "/", icon: <FiGrid /> },
+  { name: "Dashboard", path: "/dashboard", icon: <FiGrid /> },
   { name: "Records", path: "/records", icon: <FiFileText /> },
   { name: "User Management", path: "/users", icon: <FiUsers /> },
   { name: "Settings", path: "/settings", icon: <FiSettings /> },
 ];
 
-const SuperAdmin = () => {
+const SuperAdmin: React.FC<SuperAdminProps> = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
 
@@ -61,6 +66,14 @@ const SuperAdmin = () => {
             ))}
           </ul>
         </nav>
+        <main className={styles.content}>
+          {router.pathname === "/dashboard" ? (
+            <SuperAdminDashboard />
+          ) : (
+            children
+          )}
+        </main>
+        <SuperAdminDashboard />
       </div>
     </div>
   );
