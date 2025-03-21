@@ -1,0 +1,229 @@
+.container {
+  background: #f7f8f8;
+  padding: 50px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+
+  .searchContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .searchIcon {
+    position: absolute;
+    left: 10px;
+    color: #666;
+    font-size: 20px;
+  }
+
+  .search {
+    padding: 11px 80px 11px 35px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    width: 100%;
+    font-size: 14px;
+
+    &::placeholder {
+      color: #666;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: #007bff;
+    }
+  }
+
+  .searchButton,
+  .updateButton {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+  }
+
+  .searchButton {
+    background: #ff6600;
+    margin-left: 20px;
+  }
+
+  .updateButton {
+    background: #ff6600;
+  }
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 60px;
+
+  th,
+  td {
+    padding: 20px 12px;
+    text-align: left;
+  }
+
+  th {
+    gap: 8px;
+    white-space: nowrap;
+    font-weight: normal;
+    background: #f1f1f1;
+  }
+
+  .headerCell {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5px;
+  }
+
+  th svg {
+    color: #818181;
+    font-size: 16px;
+  }
+
+  .nameCell {
+    display: flex;
+    align-items: center;
+  }
+
+  .nameWrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Adjust spacing between icon and text */
+  }
+
+  .person {
+    color: #ff6600;
+    padding: 8px;
+    background-color: #fae9dd;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .statusBadge {
+    display: flex;
+    align-items: center;
+    border-radius: 0;
+    font-size: 12px;
+    font-weight: 500;
+  }
+}
+
+.viewButton {
+  background: #ff6600;
+  color: white;
+  border: none;
+  padding: 6px 22px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.pagination {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 15px;
+
+  .pageButton {
+    background: #ddd;
+    border: none;
+    padding: 8px 12px;
+    margin: 0 2px;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:hover {
+      background: #bbb;
+    }
+  }
+  .paginationWrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    font-size: 14px;
+    color: #555;
+    .paginationText {
+      font-weight: 500;
+    }
+  }
+  .pagination {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    .pageButton {
+      padding: 8px 12px;
+      border: none;
+      border-radius: 5px;
+      background: #ddd;
+      cursor: pointer;
+      font-weight: bold;
+
+      &:hover {
+        background: #bbb;
+      }
+
+      &.active {
+        background: #ff6600;
+        color: white;
+      }
+
+      &:disabled {
+        background: #eee;
+        color: #aaa;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+// pagination section
+.paginationWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10em; //place holder
+  font-size: 14px;
+  color: #555;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  .pageButton {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    background: #ddd;
+    cursor: pointer;
+    font-weight: bold;
+
+    &:hover {
+      background: #bbb;
+    }
+
+    &.active {
+      background: #ff6600;
+      color: white;
+    }
+
+    &:disabled {
+      background: #eee;
+      color: #aaa;
+      cursor: not-allowed;
+    }
+  }
+}
