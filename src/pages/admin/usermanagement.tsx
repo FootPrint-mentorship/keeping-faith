@@ -65,7 +65,7 @@ export default function UserManagement() {
             </th>
 
             <th className="headerCell">
-              <span>Action</span> <TbCaretUpDownFilled />
+              <span>Action</span>
             </th>
           </tr>
         </thead>
