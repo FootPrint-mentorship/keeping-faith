@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import styles from "../../styles/superadmin.module.scss";
+import styles from "../../styles/superadminheader.module.scss";
 
 interface HeaderProps {
   title: string;
