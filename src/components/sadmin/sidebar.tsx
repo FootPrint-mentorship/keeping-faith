@@ -12,9 +12,13 @@ interface SideBarProps {
 }
 
 const navItems = [
-  { name: "Dashboard", path: "/manageRecord", icon: <FiGrid /> },
-  { name: "Records", path: "/records", icon: <FiFileText /> },
-  { name: "User Management", path: "/users", icon: <MdOutlineGroups2 /> },
+  { name: "Dashboard", path: "/", icon: <FiGrid /> },
+  { name: "Records", path: "/manageRecord", icon: <FiFileText /> },
+  {
+    name: "User Management",
+    path: "/usermanagement",
+    icon: <MdOutlineGroups2 />,
+  },
   { name: "Settings", path: "/settings", icon: <FiSettings /> },
 ];
 

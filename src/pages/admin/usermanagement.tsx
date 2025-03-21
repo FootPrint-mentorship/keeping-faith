@@ -1,54 +1,29 @@
 import { useState } from "react";
-import styles from "../styles/Managerecord.module.scss";
-import { GrStatusGoodSmall } from "react-icons/gr";
+import styles from "../../styles/usermanagement.module.scss";
 import { TbCaretUpDownFilled } from "react-icons/tb";
 import { IoSearch } from "react-icons/io5";
 import { CiFilter } from "react-icons/ci";
+import { IoMdPerson } from "react-icons/io";
 
 const data = [
   {
-    name: "Private & Worship",
-    category: "Video",
-    addedBy: "Dami Adeloba",
-    type: "Newest",
-    status: "Approved",
+    name: "Ada Judge",
+    role: "Admin",
     date: "21-Oct-2023, 10:04am",
   },
   {
-    name: "Divine Adoration",
-    category: "Audio",
-    addedBy: "John Mark",
-    type: "Most Viewed",
-    status: "Pending",
+    name: "Mike Spencer",
+    role: "Admin",
     date: "21-Oct-2023, 10:04am",
   },
   {
-    name: "Sacred Devotion",
-    category: "Book",
-    addedBy: "Dami Adeloba",
-    type: "Newest",
-    status: "Approved",
-    date: "21-Oct-2023, 10:04am",
-  },
-  {
-    name: "Heavenly Awareness",
-    category: "Video",
-    addedBy: "Kola Mark",
-    type: "Newest",
-    status: "Pending",
-    date: "21-Oct-2023, 10:04am",
-  },
-  {
-    name: "Spiritual Homage",
-    category: "Video",
-    addedBy: "Kola Mark",
-    type: "Newest",
-    status: "Approved",
+    name: "Agutullah Okwuu",
+    role: "User",
     date: "21-Oct-2023, 10:04am",
   },
 ];
 
-export default function ManageRecord() {
+export default function UserManagement() {
   const [search, setSearch] = useState("");
 
   const filteredData = data.filter((item) =>
@@ -78,42 +53,35 @@ export default function ManageRecord() {
         <thead>
           <tr>
             <th className="headerCell">
-              <span> Name/Title</span> <TbCaretUpDownFilled />
+              <span>User Name</span> <TbCaretUpDownFilled />
             </th>
+
             <th className="headerCell">
-              <span>Category </span>
-              <TbCaretUpDownFilled />
+              <span>User Role</span> <TbCaretUpDownFilled /> <CiFilter />
             </th>
+
             <th className="headerCell">
-              <span> Added by</span> <TbCaretUpDownFilled />
+              <span>Date Added</span> <TbCaretUpDownFilled /> <CiFilter />
             </th>
+
             <th className="headerCell">
-              <span>Type</span> <TbCaretUpDownFilled /> <CiFilter />
-            </th>
-            <th className="headerCell">
-              <span>Status</span> <TbCaretUpDownFilled /> <CiFilter />
-            </th>
-            <th className="headerCell">
-              <span> Date Created</span> <TbCaretUpDownFilled />
-            </th>
-            <th className="headerCell">
-              <span> Action</span> <TbCaretUpDownFilled />
+              <span>Action</span> <TbCaretUpDownFilled />
             </th>
           </tr>
         </thead>
         <tbody>
           {filteredData.map((item, index) => (
             <tr key={index}>
-              <td>{item.name}</td>
-              <td>{item.category}</td>
-              <td>{item.addedBy}</td>
-              <td>{item.type}</td>
-              <td className={styles[item.status.toLowerCase()]}>
-                <GrStatusGoodSmall /> {item.status}
+              <td className={styles.nameCell}>
+                <div className={styles.nameWrapper}>
+                  <IoMdPerson className={styles.person} />
+                  <span>{item.name}</span>
+                </div>
               </td>
+              <td>{item.role}</td>
               <td>{item.date}</td>
               <td>
-                <button className={styles.viewButton}>View</button>
+                <button className={styles.viewButton}>Update</button>
               </td>
             </tr>
           ))}

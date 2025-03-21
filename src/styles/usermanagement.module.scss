@@ -24,7 +24,7 @@
   }
 
   .search {
-    padding: 11px 80px 11px 35px; // Added left padding to make room for the icon
+    padding: 11px 80px 11px 35px;
     border: 1px solid #ddd;
     border-radius: 10px;
     width: 100%;
@@ -39,13 +39,6 @@
       border-color: #007bff;
     }
   }
-
-  // .search {
-  //   padding: 10px;
-  //   border: 1px solid #ddd;
-  //   border-radius: 5px;
-  //   width: 300px;
-  // }
 
   .searchButton,
   .updateButton {
@@ -78,12 +71,14 @@
     padding: 20px 12px;
     text-align: left;
   }
+
   th {
-    gap: 8px; /* Adjust spacing between text and icons */
+    gap: 8px;
     white-space: nowrap;
     font-weight: normal;
     background: #f1f1f1;
   }
+
   .headerCell {
     display: flex;
     align-items: center;
@@ -101,19 +96,20 @@
     align-items: center;
   }
 
-  // th {
-  //   background: #f1f1f1;
-  //   font-weight: 0;
-  // }
-
-  .approved {
-    color: green;
-    font-weight: bold;
+  .nameWrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Adjust spacing between icon and text */
   }
 
-  .pending {
-    color: orange;
-    font-weight: bold;
+  .person {
+    color: #ff6600;
+    padding: 8px;
+    background-color: #fae9dd;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .statusBadge {
@@ -122,16 +118,6 @@
     border-radius: 0;
     font-size: 12px;
     font-weight: 500;
-  }
-
-  .approved {
-    background: #e6f4ea;
-    color: green;
-  }
-
-  .pending {
-    background: #fff3cd;
-    color: orange;
   }
 }
 
@@ -172,10 +158,6 @@
       font-weight: 500;
     }
   }
-  //   .paginationText {
-  //     font-weight: 500;
-  //   }
-
   .pagination {
     display: flex;
     align-items: center;
