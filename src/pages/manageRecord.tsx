@@ -4,6 +4,11 @@ import { GrStatusGoodSmall } from "react-icons/gr";
 import { TbCaretUpDownFilled } from "react-icons/tb";
 import { IoSearch } from "react-icons/io5";
 import { CiFilter } from "react-icons/ci";
+import { FaPlus } from "react-icons/fa";
+// import Modal from "@/components/common/Modal";
+import UploadForm from "@/components/sadmin/uploadForm";
+// import Modal from "@/components/common/Modal";
+// import { FaPlus } from "react-icons/fa6";
 
 const data = [
   {
@@ -50,6 +55,7 @@ const data = [
 
 export default function ManageRecord() {
   const [search, setSearch] = useState("");
+  // const [isModalOpen, setIsModalOpen] = useState(false);
 
   const filteredData = data.filter((item) =>
     item.name.toLowerCase().includes(search.toLowerCase())
@@ -72,7 +78,21 @@ export default function ManageRecord() {
           </div>
         </div>
 
-        <button className={styles.updateButton}>+ Update Content</button>
+        <button
+          className={styles.updateButton}
+          // onClick={() => setIsModalOpen(true)}
+        >
+          <span>
+            <FaPlus /> &nbsp;
+          </span>
+          Update Content
+        </button>
+        {/* Modal................. */}
+        {/* {isModalOpen && (
+          <Modal onClose={() => setIsModalOpen(false)}>
+            <UploadForm onClose={() => setIsModalOpen(false)} />
+          </Modal>
+        )} */}
       </div>
       <table className={styles.table}>
         <thead>
@@ -131,6 +151,12 @@ export default function ManageRecord() {
           </button>
         </div>
       </div>
+      {/* .......................test */}
+      <UploadForm
+        onClose={function (): void {
+          throw new Error("Function not implemented.");
+        }}
+      />
     </div>
   );
 }

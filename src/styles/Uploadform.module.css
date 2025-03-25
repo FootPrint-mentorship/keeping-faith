@@ -1,0 +1,72 @@
+.uploadContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* height: 50vh; */
+}
+
+.uploadForm {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.formname {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.formname span {
+  display: flex;
+  align-items: center;
+}
+.icon {
+  font-size: 15px;
+  padding: 5px 5px;
+  border: none;
+  background-color: #ccc;
+  color: #fff;
+  border-radius: 5px;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 500;
+}
+.formlabel {
+  font-size: 14px;
+}
+
+.input,
+.textarea,
+.select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.textarea {
+  height: 80px;
+  resize: none;
+}
+
+.button {
+  background: #ff6600;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.button:hover {
+  background: #e55b00;
+}

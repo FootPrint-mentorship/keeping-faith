@@ -4,6 +4,7 @@ import { TbCaretUpDownFilled } from "react-icons/tb";
 import { IoSearch } from "react-icons/io5";
 import { CiFilter } from "react-icons/ci";
 import { IoMdPerson } from "react-icons/io";
+import { FaPlus } from "react-icons/fa";
 
 const data = [
   {
@@ -47,7 +48,12 @@ export default function UserManagement() {
           </div>
         </div>
 
-        <button className={styles.updateButton}>+ Update Content</button>
+        <button className={styles.updateButton}>
+          <span className={styles.plus}>
+            <FaPlus /> &nbsp;
+          </span>
+          Add New User
+        </button>
       </div>
       <table className={styles.table}>
         <thead>

@@ -101,19 +101,14 @@
     align-items: center;
   }
 
-  // th {
-  //   background: #f1f1f1;
-  //   font-weight: 0;
-  // }
-
   .approved {
     color: green;
-    font-weight: bold;
+    font-weight: 500;
   }
 
   .pending {
     color: orange;
-    font-weight: bold;
+    font-weight: 500;
   }
 
   .statusBadge {
@@ -121,16 +116,16 @@
     align-items: center;
     border-radius: 0;
     font-size: 12px;
-    font-weight: 500;
   }
 
   .approved {
-    background: #e6f4ea;
+    // background: #e6f4ea;
     color: green;
   }
 
   .pending {
-    background: #fff3cd;
+    // padding: 4px 4px;
+    // background: #fff3cd;
     color: orange;
   }
 }
