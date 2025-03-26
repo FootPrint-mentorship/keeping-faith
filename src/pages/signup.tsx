@@ -1,6 +1,7 @@
 import { useState, FormEvent } from 'react';
 import Link from 'next/link';
 import styles from '@/styles/Signup.module.scss';
+import { useRouter } from 'next/router';
 
 interface SignupFormData {
   firstName: string;
@@ -13,6 +14,7 @@ interface SignupFormData {
 }
 
 export default function Signup() {
+  const router = useRouter();
   const [formData, setFormData] = useState<SignupFormData>({
     firstName: '',
     lastName: '',
@@ -25,7 +27,11 @@ export default function Signup() {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    // Handle form submission
+   
+  };
+
+  const handleSignup = () => {
+    router.push('/login');
   };
 
   return (
@@ -119,9 +125,9 @@ export default function Signup() {
               </label>
             </div>
 
-            <button type="submit" className={styles.submitButton}>
-              Sign Up
-            </button>
+            <button type="submit" className={styles.submitButton} onClick={handleSignup}>
+      Sign Up
+    </button>
           </form>
         </div>
       </div>
