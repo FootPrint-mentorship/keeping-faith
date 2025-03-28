@@ -1,12 +1,13 @@
 import { useState } from "react";
-import styles from "../../styles/Uploadform.module.css";
+import styles from "../../styles/Updateform.module.scss";
 import { IoCloseSharp } from "react-icons/io5";
+import PreviewCard from "./Previewcard";
 
-interface UploadFormProps {
+interface UpdateFormProps {
   onClose: () => void;
 }
 
-const UploadForm: React.FC<UploadFormProps> = ({ onClose }) => {
+const PendingForm: React.FC<UpdateFormProps> = ({ onClose }) => {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -31,17 +32,18 @@ const UploadForm: React.FC<UploadFormProps> = ({ onClose }) => {
     console.log(formData);
     onClose(); // Close modal after submission
   };
+  const PreviewImage = "/images/link.png";
 
   return (
     <div className={styles.uploadContainer}>
       <form className={styles.uploadForm} onSubmit={handleSubmit}>
         <div className={styles.formname}>
-          <h2 className={styles.title}>Upload Content</h2>
+          <h2 className={styles.title}>Pending Content</h2>
           <span>
             <IoCloseSharp className={styles.icon} />
           </span>
         </div>
-        {/* <span className={styles.formsection}> */}
+
         {/* ...............title...... */}
         <label htmlFor="title" className={styles.formlabel}>
           Title
@@ -109,15 +111,33 @@ const UploadForm: React.FC<UploadFormProps> = ({ onClose }) => {
           <option value="">Select</option>
           <option value="">Sub Category</option>
         </select>
+        <PreviewCard
+          image={PreviewImage}
+          title={"Praise & Worship"}
+          description={
+            "Praise and worship viseo by Odunsi, this features powerfull praise to the lord"
+          }
+          duration={"1hr 30s"}
+          link={""}
+        />
+
         <div className={styles.btn}>
+          {/* ......delete btn........ */}
+          <button
+            className={styles.deletebutton}
+            type="submit"
+            onClick={onClose}
+          >
+            Reject
+          </button>
+          {/* ............. Upload btn ......... */}
           <button className={styles.button} type="submit" onClick={onClose}>
-            Upload
+            Approve & Publish
           </button>
         </div>
-        {/* </span> */}
       </form>
     </div>
   );
 };
 
-export default UploadForm;
+export default PendingForm;

@@ -5,10 +5,10 @@ import { TbCaretUpDownFilled } from "react-icons/tb";
 import { IoSearch } from "react-icons/io5";
 import { CiFilter } from "react-icons/ci";
 import { FaPlus } from "react-icons/fa";
-// import Modal from "@/components/common/Modal";
 import UploadForm from "@/components/sadmin/uploadForm";
-// import Modal from "@/components/common/Modal";
-// import { FaPlus } from "react-icons/fa6";
+import SuccessCard from "@/components/sadmin/Successcard";
+import UpdateForm from "@/components/sadmin/Updateform";
+import PendingForm from "@/components/sadmin/Pendingform";
 
 const data = [
   {
@@ -55,11 +55,12 @@ const data = [
 
 export default function ManageRecord() {
   const [search, setSearch] = useState("");
-  // const [isModalOpen, setIsModalOpen] = useState(false);
 
   const filteredData = data.filter((item) =>
     item.name.toLowerCase().includes(search.toLowerCase())
   );
+
+  const [isSuccessOpen, setIsSuccessOpen] = useState(true);
 
   return (
     <div className={styles.container}>
@@ -157,6 +158,22 @@ export default function ManageRecord() {
           throw new Error("Function not implemented.");
         }}
       />
+      <SuccessCard
+        message="Upload added & published successfully!"
+        onClose={() => setIsSuccessOpen(false)}
+      />
+      <UpdateForm
+        onClose={function (): void {
+          throw new Error("Function not implemented.");
+        }}
+      />
+      <span style={{ marginTop: "40px" }}>
+        <PendingForm
+          onClose={function (): void {
+            throw new Error("Function not implemented.");
+          }}
+        />
+      </span>
     </div>
   );
 }
