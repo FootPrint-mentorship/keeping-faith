@@ -9,6 +9,7 @@ import UploadForm from "@/components/sadmin/uploadForm";
 import SuccessCard from "@/components/sadmin/Successcard";
 import UpdateForm from "@/components/sadmin/Updateform";
 import PendingForm from "@/components/sadmin/Pendingform";
+import AddUser from "@/components/sadmin/Adduser";
 
 const data = [
   {
@@ -174,6 +175,7 @@ export default function ManageRecord() {
           }}
         />
       </span>
+      <AddUser />
     </div>
   );
 }

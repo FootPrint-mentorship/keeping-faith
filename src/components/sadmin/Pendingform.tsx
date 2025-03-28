@@ -111,6 +111,7 @@ const PendingForm: React.FC<UpdateFormProps> = ({ onClose }) => {
           <option value="">Select</option>
           <option value="">Sub Category</option>
         </select>
+        <p>Preview</p>
         <PreviewCard
           image={PreviewImage}
           title={"Praise & Worship"}

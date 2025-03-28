@@ -1,0 +1,86 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 500px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+
+  .formname {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* background: #d9d9d9; */
+    /* padding: 0 20px; */
+  }
+  .formname span {
+    display: flex;
+    align-items: center;
+  }
+  .icon {
+    font-size: 25px;
+    color: #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .title {
+    margin: 0 0 20px;
+    font-size: 20px;
+    font-weight: normal;
+  }
+
+  .closeBtn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: none;
+    background: none;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 40px;
+
+    label {
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    select {
+      //   appearance: none;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    .btn {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .addUserBtn {
+      margin-top: 30px;
+      background: #ff6200;
+      color: #fff;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      &:hover {
+        background: #e05500;
+      }
+    }
+  }
+}
