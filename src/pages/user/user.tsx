@@ -7,6 +7,8 @@ import Explore from "@/components/pages/Explore";
 import ForgotPassword from "../forgotpassword";
 import Signup from "../signup";
 import UserSidebar from "../../components/suser/userSidebar";
+import Records from "@/components/pages/Records";
+import Profile from "@/components/pages/Profile";
 
 const User: React.FC = () => {
   const router = useRouter();
@@ -19,9 +21,9 @@ const User: React.FC = () => {
       case "Home":
         return <Explore />;
       case "Records":
-        return <Signup />;
+        return <Records />;
       case "Settings":
-        return <ForgotPassword />;
+        return <Profile />;
       default:
         return <Explore />;
     }
@@ -48,7 +50,7 @@ const User: React.FC = () => {
         {/* Main Content */}
         <main style={{ flexGrow: 1, overflowY: "auto", paddingLeft: "2rem", paddingRight: "2rem" }}>
           {pathname === '/forgotpassword' && <ForgotPassword />}
-          {pathname === '/signup' && <Signup />}
+          {pathname === '/records' && <Records />}
           {renderPage()}
           {/* Add other pages as needed */}
         </main>
