@@ -1,8 +1,14 @@
+.main {
+  // padding-bottom: 4rem;
+}
+.title {
+  margin-bottom: 50px;
+}
 .container {
   background: #f7f8f8;
-  padding: 50px;
+  padding: 40px 50px;
   border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .header {
@@ -193,7 +199,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 10em; //place holder
+  margin-top: 15rem; //place holder
   font-size: 14px;
   color: #555;
 }

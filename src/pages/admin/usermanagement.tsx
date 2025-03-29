@@ -32,77 +32,82 @@ export default function UserManagement() {
   );
 
   return (
-    <div className={styles.container}>
-      <div className={styles.header}>
-        <div>
-          <div className={styles.searchContainer}>
-            <IoSearch className={styles.searchIcon} />
-            <input
-              type="text"
-              placeholder="Search name/title"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className={styles.search}
-            />
-            <button className={styles.searchButton}>Search</button>
+    <div className={styles.main}>
+      <h2 className={styles.title}>User Management</h2>
+      <div className={styles.container}>
+        <div className={styles.header}>
+          <div>
+            <div className={styles.searchContainer}>
+              <IoSearch className={styles.searchIcon} />
+              <input
+                type="text"
+                placeholder="Search name/title"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className={styles.search}
+              />
+              <button className={styles.searchButton}>Search</button>
+            </div>
           </div>
-        </div>
 
-        <button className={styles.updateButton}>
-          <span className={styles.plus}>
-            <FaPlus /> &nbsp;
-          </span>
-          Add New User
-        </button>
-      </div>
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th className="headerCell">
-              <span>User Name</span> <TbCaretUpDownFilled />
-            </th>
-
-            <th className="headerCell">
-              <span>User Role</span> <TbCaretUpDownFilled /> <CiFilter />
-            </th>
-
-            <th className="headerCell">
-              <span>Date Added</span> <TbCaretUpDownFilled /> <CiFilter />
-            </th>
-
-            <th className="headerCell">
-              <span>Action</span>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredData.map((item, index) => (
-            <tr key={index}>
-              <td className={styles.nameCell}>
-                <div className={styles.nameWrapper}>
-                  <IoMdPerson className={styles.person} />
-                  <span>{item.name}</span>
-                </div>
-              </td>
-              <td>{item.role}</td>
-              <td>{item.date}</td>
-              <td>
-                <button className={styles.viewButton}>Update</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <div className={styles.paginationWrapper}>
-        <span className={styles.paginationText}>
-          Showing 1-5 of 30 total entries
-        </span>
-        <div className={styles.pagination}>
-          <button className={`${styles.pageButton} ${styles.active}`}>1</button>
-          <button className={styles.pageButton}>2</button>
-          <button className={styles.pageButton} disabled>
-            Next
+          <button className={styles.updateButton}>
+            <span className={styles.plus}>
+              <FaPlus /> &nbsp;
+            </span>
+            Add New User
           </button>
+        </div>
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              <th className="headerCell">
+                <span>User Name</span> <TbCaretUpDownFilled />
+              </th>
+
+              <th className="headerCell">
+                <span>User Role</span> <TbCaretUpDownFilled /> <CiFilter />
+              </th>
+
+              <th className="headerCell">
+                <span>Date Added</span> <TbCaretUpDownFilled /> <CiFilter />
+              </th>
+
+              <th className="headerCell">
+                <span>Action</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredData.map((item, index) => (
+              <tr key={index}>
+                <td className={styles.nameCell}>
+                  <div className={styles.nameWrapper}>
+                    <IoMdPerson className={styles.person} />
+                    <span>{item.name}</span>
+                  </div>
+                </td>
+                <td>{item.role}</td>
+                <td>{item.date}</td>
+                <td>
+                  <button className={styles.viewButton}>Update</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <div className={styles.paginationWrapper}>
+          <span className={styles.paginationText}>
+            Showing 1-5 of 30 total entries
+          </span>
+          <div className={styles.pagination}>
+            <button className={`${styles.pageButton} ${styles.active}`}>
+              1
+            </button>
+            <button className={styles.pageButton}>2</button>
+            <button className={styles.pageButton} disabled>
+              Next
+            </button>
+          </div>
         </div>
       </div>
     </div>
