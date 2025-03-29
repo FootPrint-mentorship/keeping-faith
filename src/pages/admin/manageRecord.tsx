@@ -1,15 +1,15 @@
 import { useState } from "react";
-import styles from "../styles/Managerecord.module.scss";
+import styles from "../../styles/Managerecord.module.scss";
 import { GrStatusGoodSmall } from "react-icons/gr";
 import { TbCaretUpDownFilled } from "react-icons/tb";
 import { IoSearch } from "react-icons/io5";
 import { CiFilter } from "react-icons/ci";
 import { FaPlus } from "react-icons/fa";
-import UploadForm from "@/components/sadmin/uploadForm";
-import SuccessCard from "@/components/sadmin/Successcard";
-import UpdateForm from "@/components/sadmin/Updateform";
-import PendingForm from "@/components/sadmin/Pendingform";
-import AddUser from "@/components/sadmin/Adduser";
+// import UploadForm from "@/components/sadmin/uploadForm";
+// import SuccessCard from "@/components/sadmin/Successcard";
+// import UpdateForm from "@/components/sadmin/Updateform";
+// import PendingForm from "@/components/sadmin/Pendingform";
+// import AddUser from "@/components/sadmin/Adduser";
 
 const data = [
   {
@@ -61,7 +61,7 @@ export default function ManageRecord() {
     item.name.toLowerCase().includes(search.toLowerCase())
   );
 
-  const [isSuccessOpen, setIsSuccessOpen] = useState(true);
+  // const [isSuccessOpen, setIsSuccessOpen] = useState(true);
 
   return (
     <div className={styles.container}>
@@ -154,7 +154,7 @@ export default function ManageRecord() {
         </div>
       </div>
       {/* .......................test */}
-      <UploadForm
+      {/* <UploadForm
         onClose={function (): void {
           throw new Error("Function not implemented.");
         }}
@@ -176,6 +176,16 @@ export default function ManageRecord() {
         />
       </span>
       <AddUser />
+      <SuccessCard
+        message="User added successfully!"
+        onClose={() => setIsSuccessOpen(false)}
+      />
+      <span className={styles.mt}>
+        <SuccessCard
+          message="User deactivated successfully!"
+          onClose={() => setIsSuccessOpen(false)}
+        />
+      </span> */}
     </div>
   );
 }

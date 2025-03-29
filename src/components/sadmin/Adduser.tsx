@@ -20,8 +20,7 @@ const AddUser = () => {
             <IoCloseSharp className={styles.icon} />
           </span>
         </div>
-        {/* <h2>Add User</h2>
-        <button className={styles.closeBtn}>✖</button> */}
+
         <form onSubmit={handleSubmit}>
           <label>Select User</label>
           <select value={user} onChange={(e) => setUser(e.target.value)}>
