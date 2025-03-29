@@ -2,13 +2,11 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import SuperAdminSidebar from "@/components/sadmin/Superadminsidebar";
 import Dashboard from "./dashboard";
-// import ManageRecord from "./managerecord";
+import ManageRecord from "./managerecords";
 import ErrorHandle from "./errorhandle";
 import UserManagement from "./usermanagement";
 import Settings from "./settings";
 import Header from "@/components/sadmin/Header";
-import ManageRecord from "./managerecords";
-// import ManageRecord from "./manageRecord";
 
 const SuperAdmin: React.FC = () => {
   const router = useRouter();
