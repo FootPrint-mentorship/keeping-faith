@@ -7,6 +7,8 @@
   flex-direction: column;
   transition: width 0.3s ease-in-out;
   overflow: hidden;
+  padding-top: 40px;
+
 }
 
 .open {
@@ -25,6 +27,7 @@
   left: 10px;
   cursor: pointer;
   margin-left: 20px;
+  margin-top: 85px;
 }
 
 .logo {
