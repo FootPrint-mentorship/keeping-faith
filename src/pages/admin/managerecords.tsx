@@ -5,6 +5,9 @@ import { TbCaretUpDownFilled } from "react-icons/tb";
 import { IoSearch } from "react-icons/io5";
 import { CiFilter } from "react-icons/ci";
 import { FaPlus } from "react-icons/fa";
+import Modal from "@/components/common/Modal";
+import UploadForm from "@/components/sadmin/uploadForm";
+import SuccessCard from "@/components/sadmin/Successcard";
 // import UploadForm from "@/components/sadmin/uploadForm";
 // import SuccessCard from "@/components/sadmin/Successcard";
 // import UpdateForm from "@/components/sadmin/Updateform";
@@ -56,12 +59,17 @@ const data = [
 
 export default function ManageRecord() {
   const [search, setSearch] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
+
+  const handleUploadSuccess = () => {
+    setIsModalOpen(false); // Close the upload form
+    setIsSuccessOpen(true); // Show success card
+  };
 
   const filteredData = data.filter((item) =>
     item.name.toLowerCase().includes(search.toLowerCase())
   );
-
-  // const [isSuccessOpen, setIsSuccessOpen] = useState(true);
 
   return (
     <div>
@@ -84,7 +92,7 @@ export default function ManageRecord() {
 
           <button
             className={styles.updateButton}
-            // onClick={() => setIsModalOpen(true)}
+            onClick={() => setIsModalOpen(true)}
           >
             <span>
               <FaPlus /> &nbsp;
@@ -92,11 +100,19 @@ export default function ManageRecord() {
             Update Content
           </button>
           {/* Modal................. */}
-          {/* {isModalOpen && (
-          <Modal onClose={() => setIsModalOpen(false)}>
-            <UploadForm onClose={() => setIsModalOpen(false)} />
+          <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+            <UploadForm onClose={handleUploadSuccess} />
           </Modal>
-        )} */}
+          {/* Success Card Modal */}
+          <Modal isOpen={isSuccessOpen} onClose={() => setIsSuccessOpen(false)}>
+            <SuccessCard
+              message="Upload added & published successfully!"
+              onClose={() => setIsSuccessOpen(false)}
+            />
+          </Modal>
+          {/* <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+            <UploadForm onClose={() => setIsModalOpen(false)} />
+          </Modal> */}
         </div>
         <table className={styles.table}>
           <thead>

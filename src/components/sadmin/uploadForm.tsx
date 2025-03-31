@@ -41,7 +41,6 @@ const UploadForm: React.FC<UploadFormProps> = ({ onClose }) => {
             <IoCloseSharp className={styles.icon} />
           </span>
         </div>
-        {/* <span className={styles.formsection}> */}
         {/* ...............title...... */}
         <label htmlFor="title" className={styles.formlabel}>
           Title
@@ -110,11 +109,14 @@ const UploadForm: React.FC<UploadFormProps> = ({ onClose }) => {
           <option value="">Sub Category</option>
         </select>
         <div className={styles.btn}>
-          <button className={styles.button} type="submit" onClick={onClose}>
+          <button
+            className={styles.button}
+            type="submit"
+            // onClick={() => setIsModalOpen(true)}
+          >
             Upload
           </button>
         </div>
-        {/* </span> */}
       </form>
     </div>
   );

@@ -1,21 +1,22 @@
-import React from "react";
+// components/Modal.tsx
+import { ReactNode } from "react";
+import styles from "../../styles/modal.module.scss";
 
 interface ModalProps {
-  children: React.ReactNode;
+  isOpen: boolean;
   onClose: () => void;
-  className?: string;
+  children: ReactNode;
 }
 
-const Modal: React.FC<ModalProps> = ({ children, onClose, className }) => {
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
+  if (!isOpen) return null;
+
   return (
-    <div
-      className={`fixed top-0 left-0 right-0 bottom-0  h-screen w-screen overflow-y-scroll  z-[3000]  bg-black bg-opacity-50 ${className}`}
-      onClick={onClose}
-    >
-      <div
-        className="  lg:max-w-2xl lg:w-full min-h-[400px]     mx-auto"
-        onClick={(e) => e.stopPropagation()}
-      >
+    <div className={styles.modalOverlay} onClick={onClose}>
+      <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+        {/* <button className={styles.closeButton} onClick={onClose}>
+          &times;
+        </button> */}
         {children}
       </div>
     </div>
