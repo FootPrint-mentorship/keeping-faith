@@ -32,6 +32,7 @@ const UpdateForm: React.FC<UpdateFormProps> = ({ onClose }) => {
     console.log(formData);
     onClose(); // Close modal after submission
   };
+  const PreviewImage = "/images/placeholder.png";
 
   return (
     <div className={styles.uploadContainer}>
@@ -111,7 +112,7 @@ const UpdateForm: React.FC<UpdateFormProps> = ({ onClose }) => {
           <option value="">Sub Category</option>
         </select>
         <PreviewCard
-          image={""}
+          image={PreviewImage}
           title={"Praise & Worship"}
           description={
             "Praise and worship viseo by Odunsi, this features powerfull praise to the lord"
@@ -131,7 +132,7 @@ const UpdateForm: React.FC<UpdateFormProps> = ({ onClose }) => {
           </button>
           {/* ............. Upload btn ......... */}
           <button className={styles.button} type="submit" onClick={onClose}>
-            Upload
+            Update
           </button>
         </div>
       </form>

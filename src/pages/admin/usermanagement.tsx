@@ -5,6 +5,10 @@ import { IoSearch } from "react-icons/io5";
 import { CiFilter } from "react-icons/ci";
 import { IoMdPerson } from "react-icons/io";
 import { FaPlus } from "react-icons/fa";
+import Modal from "@/components/common/Modal";
+import UpdateForm from "@/components/sadmin/Updateform";
+import AddUser from "@/components/sadmin/Adduser";
+import SuccessCard from "@/components/sadmin/Successcard";
 
 const data = [
   {
@@ -26,6 +30,14 @@ const data = [
 
 export default function UserManagement() {
   const [search, setSearch] = useState("");
+  const [isAddUserOpen, setIsAddUserOpen] = useState(false);
+  const [isUpdateUserOpen, setIsUpdateUserOpen] = useState(false);
+  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
+
+  const handleUploadSuccess = () => {
+    setIsAddUserOpen(false); //Close AddUser modal correctly
+    setIsSuccessOpen(true); // Show success card
+  };
 
   const filteredData = data.filter((item) =>
     item.name.toLowerCase().includes(search.toLowerCase())
@@ -50,12 +62,27 @@ export default function UserManagement() {
             </div>
           </div>
 
-          <button className={styles.updateButton}>
+          <button
+            className={styles.updateButton}
+            onClick={() => setIsAddUserOpen(true)}
+          >
             <span className={styles.plus}>
               <FaPlus /> &nbsp;
             </span>
             Add New User
           </button>
+          {/* Modal................. */}
+          <Modal isOpen={isAddUserOpen} onClose={() => setIsAddUserOpen(false)}>
+            <AddUser onClose={handleUploadSuccess} />
+          </Modal>
+
+          {/*  Success Modal */}
+          <Modal isOpen={isSuccessOpen} onClose={() => setIsSuccessOpen(false)}>
+            <SuccessCard
+              message="User added successfully!"
+              onClose={() => setIsSuccessOpen(false)}
+            />
+          </Modal>
         </div>
         <table className={styles.table}>
           <thead>
@@ -89,7 +116,18 @@ export default function UserManagement() {
                 <td>{item.role}</td>
                 <td>{item.date}</td>
                 <td>
-                  <button className={styles.viewButton}>Update</button>
+                  <button
+                    className={styles.viewButton}
+                    onClick={() => setIsUpdateUserOpen(true)}
+                  >
+                    Update
+                  </button>
+                  <Modal
+                    isOpen={isUpdateUserOpen}
+                    onClose={() => setIsUpdateUserOpen(false)}
+                  >
+                    <UpdateForm onClose={() => setIsUpdateUserOpen(false)} />
+                  </Modal>
                 </td>
               </tr>
             ))}

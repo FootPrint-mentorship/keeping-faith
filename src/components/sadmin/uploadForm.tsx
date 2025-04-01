@@ -109,11 +109,7 @@ const UploadForm: React.FC<UploadFormProps> = ({ onClose }) => {
           <option value="">Sub Category</option>
         </select>
         <div className={styles.btn}>
-          <button
-            className={styles.button}
-            type="submit"
-            // onClick={() => setIsModalOpen(true)}
-          >
+          <button className={styles.button} type="submit">
             Upload
           </button>
         </div>

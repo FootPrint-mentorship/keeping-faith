@@ -8,6 +8,7 @@ import { FaPlus } from "react-icons/fa";
 import Modal from "@/components/common/Modal";
 import UploadForm from "@/components/sadmin/uploadForm";
 import SuccessCard from "@/components/sadmin/Successcard";
+import UpdateForm from "@/components/sadmin/Updateform";
 // import UploadForm from "@/components/sadmin/uploadForm";
 // import SuccessCard from "@/components/sadmin/Successcard";
 // import UpdateForm from "@/components/sadmin/Updateform";
@@ -61,6 +62,7 @@ export default function ManageRecord() {
   const [search, setSearch] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
+  const [isUpdateOpen, setIsUpdateOpen] = useState(false);
 
   const handleUploadSuccess = () => {
     setIsModalOpen(false); // Close the upload form
@@ -73,7 +75,7 @@ export default function ManageRecord() {
 
   return (
     <div>
-      <h2 className={styles.title}>User Management</h2>
+      <h2 className={styles.title}> Manage Record</h2>
       <div className={styles.container}>
         <div className={styles.header}>
           <div>
@@ -97,7 +99,7 @@ export default function ManageRecord() {
             <span>
               <FaPlus /> &nbsp;
             </span>
-            Update Content
+            Upload Content
           </button>
           {/* Modal................. */}
           <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
@@ -153,7 +155,30 @@ export default function ManageRecord() {
                 </td>
                 <td>{item.date}</td>
                 <td>
-                  <button className={styles.viewButton}>View</button>
+                  <button
+                    className={styles.viewButton}
+                    onClick={() => setIsUpdateOpen(true)}
+                  >
+                    View
+                  </button>
+                  {/* Modal................. */}
+                  <Modal
+                    isOpen={isUpdateOpen}
+                    onClose={() => setIsUpdateOpen(false)}
+                  >
+                    <UpdateForm onClose={handleUploadSuccess} />
+                  </Modal>
+
+                  {/*  Success Modal */}
+                  <Modal
+                    isOpen={isSuccessOpen}
+                    onClose={() => setIsSuccessOpen(false)}
+                  >
+                    <SuccessCard
+                      message="Update successfully!"
+                      onClose={() => setIsSuccessOpen(false)}
+                    />
+                  </Modal>
                 </td>
               </tr>
             ))}

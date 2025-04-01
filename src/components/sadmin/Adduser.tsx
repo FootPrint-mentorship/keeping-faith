@@ -2,7 +2,12 @@ import { useState } from "react";
 import styles from "../../styles/Adduser.module.scss";
 import { IoCloseSharp } from "react-icons/io5";
 
-const AddUser = () => {
+interface AddUserProps {
+  onClose: () => void;
+}
+
+// const AddUser = () => {
+const AddUser: React.FC<AddUserProps> = ({ onClose }) => {
   const [user, setUser] = useState("");
   const [role, setRole] = useState("");
 
@@ -40,7 +45,11 @@ const AddUser = () => {
             <option value="editor">Editor</option>
           </select>
           <span className={styles.btn}>
-            <button type="submit" className={styles.addUserBtn}>
+            <button
+              type="submit"
+              className={styles.addUserBtn}
+              onClick={onClose}
+            >
               Add User
             </button>
           </span>
