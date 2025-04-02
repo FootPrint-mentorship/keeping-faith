@@ -18,10 +18,7 @@
     justify-content: space-between;
     align-items: center;
   }
-  .formname span {
-    display: flex;
-    align-items: center;
-  }
+
   .icon {
     font-size: 25px;
     color: #ccc;
@@ -30,7 +27,6 @@
   }
 
   .title {
-    margin: 0 0 20px;
     font-size: 20px;
     font-weight: normal;
   }
@@ -40,18 +36,42 @@
     flex-direction: column;
     margin-top: 40px;
 
-    label {
-      margin-bottom: 5px;
-      font-weight: bold;
+    // input
+    .nameFields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
     }
 
-    select {
-      //   appearance: none;
-      padding: 10px;
-      margin-bottom: 15px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
+    .inputGroup {
+      span {
+        font-size: 0.9rem;
+        margin-top: 5px;
+        margin-bottom: 10px;
+        padding-bottom: 0.75rem;
+      }
+      input,
+      select {
+        width: 100%;
+        padding: 0.75rem 0 0.75rem 0.75rem;
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        font-size: 0.9rem;
+        // margin-right: 30px;
+        margin-top: 5px;
+        margin-bottom: 20px;
+
+        &::placeholder {
+          color: #999;
+        }
+
+        &:focus {
+          outline: none;
+          border-color: #ff5722;
+        }
+      }
     }
+
     .btn {
       display: flex;
       justify-content: flex-end;
@@ -72,63 +92,40 @@
     }
   }
 }
+
 // name field
-// .form {
-//   display: flex;
-//   flex-direction: column;
-//   gap: 1rem;
-//   width: 100%;
+
+// .nameFields {
+//   display: grid;
+//   grid-template-columns: 1fr 1fr;
+//   gap: 3rem;
 // }
 
-.nameFields {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3rem;
-}
-.passwordFields {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3rem;
-}
+// .inputGroup {
+//   span {
+//     font-size: 0.9rem;
+//     margin-top: 5px;
+//     margin-bottom: 10px;
+//     padding-bottom: 0.75rem;
+//   }
+//   input,
+//   select {
+//     width: 100%;
+//     padding: 0.75rem;
+//     border: 1px solid #ddd;
+//     border-radius: 12px;
+//     font-size: 0.9rem;
+//     margin-right: 30px;
+//     margin-top: 5px;
+//     margin-bottom: 20px;
 
-.inputGroup {
-  span {
-    font-size: 0.9rem;
-    margin-right: 30px;
-    margin-top: 5px;
-    margin-bottom: 10px;
-    padding-bottom: 0.75rem;
-  }
-  input {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    font-size: 0.9rem;
-    margin-right: 30px;
-    margin-top: 5px;
-    margin-bottom: 20px;
+//     &::placeholder {
+//       color: #999;
+//     }
 
-    &::placeholder {
-      color: #999;
-    }
-
-    &:focus {
-      outline: none;
-      border-color: #ff5722;
-    }
-  }
-}
-
-.termsGroup {
-  margin-top: 1rem;
-}
-
-.termsLink {
-  color: #ff5722;
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
-}
+//     &:focus {
+//       outline: none;
+//       border-color: #ff5722;
+//     }
+//   }
+// }

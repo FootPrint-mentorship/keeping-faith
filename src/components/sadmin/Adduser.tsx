@@ -28,18 +28,12 @@ const AddUser: React.FC<AddUserProps> = ({ onClose }) => {
       <div className={styles.card}>
         <div className={styles.formname}>
           <h2 className={styles.title}>Add User</h2>
-          <span>
+          <span className={styles.closed}>
             <IoCloseSharp className={styles.icon} />
           </span>
         </div>
 
         <form onSubmit={handleSubmit}>
-          {/* <label>Select User</label>
-          <select value={user} onChange={(e) => setUser(e.target.value)}>
-            <option value="">Select</option>
-            <option value="user1">User 1</option>
-            <option value="user2">User 2</option>
-          </select> */}
           {/* ...........First-name Last-name ....... */}
           <div className={styles.nameFields}>
             <div className={styles.inputGroup}>
@@ -101,6 +95,19 @@ const AddUser: React.FC<AddUserProps> = ({ onClose }) => {
                 setFormData({ ...formData, password: e.target.value })
               }
             />
+          </div>
+          {/* .... select role .... */}
+          <div className={styles.inputGroup}>
+            <span>Select Role</span>
+            <select
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+              className={styles.selectoption}
+            >
+              <option value="">User</option>
+              <option value="admin">Admin</option>
+              <option value="editor">Super Admin</option>
+            </select>
           </div>
 
           {/* <label>Select Role</label>
