@@ -14,7 +14,7 @@ interface HeaderProps {
 const userHeader: React.FC<HeaderProps> = ({ title, user }) => {
   return (
     <header className={styles.header}>
-      <h1 className={styles.title}>Keeping Faith</h1>
+      <h1 className={styles.title}>Chillnlearn Christain</h1>
       <div className={styles.userInfo}>
         <div>
           <span className={styles.userName}>{user.name}</span>

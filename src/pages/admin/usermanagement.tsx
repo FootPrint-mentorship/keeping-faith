@@ -9,6 +9,7 @@ import Modal from "@/components/common/Modal";
 import UpdateForm from "@/components/sadmin/Updateform";
 import AddUser from "@/components/sadmin/Adduser";
 import SuccessCard from "@/components/sadmin/Successcard";
+import UpdateUser from "@/components/sadmin/Updateuser";
 
 const data = [
   {
@@ -126,7 +127,7 @@ export default function UserManagement() {
                     isOpen={isUpdateUserOpen}
                     onClose={() => setIsUpdateUserOpen(false)}
                   >
-                    <UpdateForm onClose={() => setIsUpdateUserOpen(false)} />
+                    <UpdateUser onClose={() => setIsUpdateUserOpen(false)} />
                   </Modal>
                 </td>
               </tr>

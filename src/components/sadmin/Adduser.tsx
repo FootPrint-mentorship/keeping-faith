@@ -10,6 +10,13 @@ interface AddUserProps {
 const AddUser: React.FC<AddUserProps> = ({ onClose }) => {
   const [user, setUser] = useState("");
   const [role, setRole] = useState("");
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
+    email: "",
+    password: "",
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,23 +34,85 @@ const AddUser: React.FC<AddUserProps> = ({ onClose }) => {
         </div>
 
         <form onSubmit={handleSubmit}>
-          <label>Select User</label>
+          {/* <label>Select User</label>
           <select value={user} onChange={(e) => setUser(e.target.value)}>
             <option value="">Select</option>
             <option value="user1">User 1</option>
             <option value="user2">User 2</option>
-          </select>
+          </select> */}
+          {/* ...........First-name Last-name ....... */}
+          <div className={styles.nameFields}>
+            <div className={styles.inputGroup}>
+              <span>First Name</span>
+              <input
+                type="text"
+                placeholder="Enter your first name"
+                value={formData.firstName}
+                onChange={(e) =>
+                  setFormData({ ...formData, firstName: e.target.value })
+                }
+              />
+            </div>
+            <div className={styles.inputGroup}>
+              <span>Last Name</span>
+              <input
+                type="text"
+                placeholder="Enter your last name"
+                value={formData.lastName}
+                onChange={(e) =>
+                  setFormData({ ...formData, lastName: e.target.value })
+                }
+              />
+            </div>
+          </div>
 
-          <label>Select Role</label>
+          {/* ..... phone number ....... */}
+          <div className={styles.inputGroup}>
+            <span>Phone Number</span>
+            <input
+              type="tel"
+              placeholder="Enter your phone number"
+              value={formData.phoneNumber}
+              onChange={(e) =>
+                setFormData({ ...formData, phoneNumber: e.target.value })
+              }
+            />
+          </div>
+          {/* ...... Email ... */}
+          <div className={styles.inputGroup}>
+            <span>Email Address</span>
+            <input
+              type="email"
+              placeholder="Enter your email address"
+              value={formData.email}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
+            />
+          </div>
+          {/* .... password .... */}
+          <div className={styles.inputGroup}>
+            <span>Password</span>
+            <input
+              type="password"
+              placeholder="Enter your password"
+              value={formData.password}
+              onChange={(e) =>
+                setFormData({ ...formData, password: e.target.value })
+              }
+            />
+          </div>
+
+          {/* <label>Select Role</label>
           <select
             value={role}
             onChange={(e) => setRole(e.target.value)}
             className={styles.selectoption}
           >
-            <option value="">Select</option>
+            <option value="">User</option>
             <option value="admin">Admin</option>
-            <option value="editor">Editor</option>
-          </select>
+            <option value="editor">Super Admin</option>
+          </select> */}
           <span className={styles.btn}>
             <button
               type="submit"

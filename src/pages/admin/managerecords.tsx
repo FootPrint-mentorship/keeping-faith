@@ -9,11 +9,6 @@ import Modal from "@/components/common/Modal";
 import UploadForm from "@/components/sadmin/uploadForm";
 import SuccessCard from "@/components/sadmin/Successcard";
 import UpdateForm from "@/components/sadmin/Updateform";
-// import UploadForm from "@/components/sadmin/uploadForm";
-// import SuccessCard from "@/components/sadmin/Successcard";
-// import UpdateForm from "@/components/sadmin/Updateform";
-// import PendingForm from "@/components/sadmin/Pendingform";
-// import AddUser from "@/components/sadmin/Adduser";
 
 const data = [
   {
@@ -61,12 +56,24 @@ const data = [
 export default function ManageRecord() {
   const [search, setSearch] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
   const [isUpdateOpen, setIsUpdateOpen] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleUploadSuccess = () => {
-    setIsModalOpen(false); // Close the upload form
-    setIsSuccessOpen(true); // Show success card
+  // const handleUploadSuccess = (message) => {
+  //   setIsLoading(true);
+  //   setTimeout(() => {
+  //     setIsLoading(false);
+  //     setSuccessMessage(message);
+  //   }, 1500);
+  // };
+  const handleUploadSuccess = (message) => {
+    setIsUpdateOpen(false); // Close the UpdateForm modal
+    setIsLoading(true); // Show the loader
+    setTimeout(() => {
+      setIsLoading(false); // Hide the loader
+      setSuccessMessage(message); // Show the success message
+    }, 1500); // Adjust the delay if necessary
   };
 
   const filteredData = data.filter((item) =>
@@ -78,69 +85,48 @@ export default function ManageRecord() {
       <h2 className={styles.title}> Manage Record</h2>
       <div className={styles.container}>
         <div className={styles.header}>
-          <div>
-            <div className={styles.searchContainer}>
-              <IoSearch className={styles.searchIcon} />
-              <input
-                type="text"
-                placeholder="Search name/title"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className={styles.search}
-              />
-              <button className={styles.searchButton}>Search</button>
-            </div>
+          <div className={styles.searchContainer}>
+            <IoSearch className={styles.searchIcon} />
+            <input
+              type="text"
+              placeholder="Search name/title"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className={styles.search}
+            />
+            <button className={styles.searchButton}>Search</button>
           </div>
 
           <button
             className={styles.updateButton}
             onClick={() => setIsModalOpen(true)}
           >
-            <span>
-              <FaPlus /> &nbsp;
-            </span>
-            Upload Content
+            <FaPlus /> Upload Content
           </button>
-          {/* Modal................. */}
-          <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-            <UploadForm onClose={handleUploadSuccess} />
-          </Modal>
-          {/* Success Card Modal */}
-          <Modal isOpen={isSuccessOpen} onClose={() => setIsSuccessOpen(false)}>
-            <SuccessCard
-              message="Upload added & published successfully!"
-              onClose={() => setIsSuccessOpen(false)}
-            />
-          </Modal>
-          {/* <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-            <UploadForm onClose={() => setIsModalOpen(false)} />
-          </Modal> */}
         </div>
+
         <table className={styles.table}>
           <thead>
             <tr>
-              <th className="headerCell">
-                <span> Name/Title</span> <TbCaretUpDownFilled />
+              <th>
+                Name/Title <TbCaretUpDownFilled />
               </th>
-              <th className="headerCell">
-                <span>Category </span>
-                <TbCaretUpDownFilled />
+              <th>
+                Category <TbCaretUpDownFilled />
               </th>
-              <th className="headerCell">
-                <span> Added by</span> <TbCaretUpDownFilled />
+              <th>
+                Added by <TbCaretUpDownFilled />
               </th>
-              <th className="headerCell">
-                <span>Type</span> <TbCaretUpDownFilled /> <CiFilter />
+              <th>
+                Type <TbCaretUpDownFilled /> <CiFilter />
               </th>
-              <th className="headerCell">
-                <span>Status</span> <TbCaretUpDownFilled /> <CiFilter />
+              <th>
+                Status <TbCaretUpDownFilled /> <CiFilter />
               </th>
-              <th className="headerCell">
-                <span> Date Created</span> <TbCaretUpDownFilled />
+              <th>
+                Date Created <TbCaretUpDownFilled />
               </th>
-              <th className="headerCell">
-                <span> Action</span> <TbCaretUpDownFilled />
-              </th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -161,29 +147,12 @@ export default function ManageRecord() {
                   >
                     View
                   </button>
-                  {/* Modal................. */}
-                  <Modal
-                    isOpen={isUpdateOpen}
-                    onClose={() => setIsUpdateOpen(false)}
-                  >
-                    <UpdateForm onClose={handleUploadSuccess} />
-                  </Modal>
-
-                  {/*  Success Modal */}
-                  <Modal
-                    isOpen={isSuccessOpen}
-                    onClose={() => setIsSuccessOpen(false)}
-                  >
-                    <SuccessCard
-                      message="Update successfully!"
-                      onClose={() => setIsSuccessOpen(false)}
-                    />
-                  </Modal>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+
         <div className={styles.paginationWrapper}>
           <span className={styles.paginationText}>
             Showing 1-5 of 30 total entries
@@ -198,39 +167,36 @@ export default function ManageRecord() {
             </button>
           </div>
         </div>
-        {/* .......................test */}
-        {/* <UploadForm
-        onClose={function (): void {
-          throw new Error("Function not implemented.");
-        }}
-      />
-      <SuccessCard
-        message="Upload added & published successfully!"
-        onClose={() => setIsSuccessOpen(false)}
-      />
-      <UpdateForm
-        onClose={function (): void {
-          throw new Error("Function not implemented.");
-        }}
-      />
-      <span style={{ marginTop: "40px" }}>
-        <PendingForm
-          onClose={function (): void {
-            throw new Error("Function not implemented.");
-          }}
-        />
-      </span>
-      <AddUser />
-      <SuccessCard
-        message="User added successfully!"
-        onClose={() => setIsSuccessOpen(false)}
-      />
-      <span className={styles.mt}>
-        <SuccessCard
-          message="User deactivated successfully!"
-          onClose={() => setIsSuccessOpen(false)}
-        />
-      </span> */}
+
+        {/* Modals */}
+        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+          <UploadForm
+            onClose={() =>
+              handleUploadSuccess("Upload added & published successfully!")
+            }
+          />
+        </Modal>
+
+        <Modal isOpen={isUpdateOpen} onClose={() => setIsUpdateOpen(false)}>
+          <UpdateForm
+            onClose={() => handleUploadSuccess("Update successful!")}
+          />
+        </Modal>
+
+        {isLoading && (
+          <Modal isOpen={true} onClose={() => setIsLoading(false)}>
+            <div className={styles.loader}></div>
+          </Modal>
+        )}
+
+        {successMessage && !isLoading && (
+          <Modal isOpen={true} onClose={() => setSuccessMessage("")}>
+            <SuccessCard
+              message={successMessage}
+              onClose={() => setSuccessMessage("")}
+            />
+          </Modal>
+        )}
       </div>
     </div>
   );

@@ -20,7 +20,7 @@ const PreviewCard: React.FC<PreviewCardProps> = ({
 }) => {
   return (
     <div>
-      <p>Preview</p>
+      {/* <p>Preview</p> */}
       <div className={styles.previewCard}>
         <Image
           src={image}
