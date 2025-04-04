@@ -34,10 +34,32 @@ export default function UserManagement() {
   const [isAddUserOpen, setIsAddUserOpen] = useState(false);
   const [isUpdateUserOpen, setIsUpdateUserOpen] = useState(false);
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleDeactivate = () => {
+    setIsUpdateUserOpen(false);
+    setIsLoading(true);
+
+    setTimeout(() => {
+      setIsLoading(false);
+      setSuccessMessage("User deactivated successfully!");
+    }, 2000);
+  };
+
+  const handleUpdate = () => {
+    setIsUpdateUserOpen(false);
+    setIsLoading(true);
+
+    setTimeout(() => {
+      setIsLoading(false);
+      setSuccessMessage("User updated successfully!");
+    }, 2000);
+  };
 
   const handleUploadSuccess = () => {
-    setIsAddUserOpen(false); //Close AddUser modal correctly
-    setIsSuccessOpen(true); // Show success card
+    setIsAddUserOpen(false);
+    setIsSuccessOpen(true);
   };
 
   const filteredData = data.filter((item) =>
@@ -123,12 +145,37 @@ export default function UserManagement() {
                   >
                     Update
                   </button>
+                  {/* Update User Modal */}
                   <Modal
                     isOpen={isUpdateUserOpen}
                     onClose={() => setIsUpdateUserOpen(false)}
                   >
-                    <UpdateUser onClose={() => setIsUpdateUserOpen(false)} />
+                    <UpdateUser
+                      onClose={() => setIsUpdateUserOpen(false)}
+                      onDeactivate={handleDeactivate}
+                      onUpdate={handleUpdate}
+                    />
                   </Modal>
+                  {/* Loader Modal */}
+                  <Modal isOpen={isLoading} onClose={() => setIsLoading(false)}>
+                    <div className={styles.loaderContainer}>
+                      <div className={styles.loader}></div>
+                      <p>Processing...</p>
+                    </div>
+                  </Modal>
+
+                  {/* Success Modal (Only appears after update modal closes) */}
+                  {successMessage && (
+                    <Modal
+                      isOpen={!!successMessage}
+                      onClose={() => setSuccessMessage("")}
+                    >
+                      <SuccessCard
+                        message={successMessage}
+                        onClose={() => setSuccessMessage("")}
+                      />
+                    </Modal>
+                  )}
                 </td>
               </tr>
             ))}
