@@ -11,7 +11,7 @@ interface HeaderProps {
   };
 }
 
-const userHeader: React.FC<HeaderProps> = ({ title, user }) => {
+const Header: React.FC<HeaderProps> = ({ title, user }) => {
   return (
     <header className={styles.header}>
       <h1 className={styles.title}>Chillnlearn Christain</h1>
@@ -40,4 +40,4 @@ const userHeader: React.FC<HeaderProps> = ({ title, user }) => {
   );
 };
 
-export default userHeader;
+export default Header;
