@@ -28,6 +28,8 @@ const Profile: React.FC = () => {
   };
 
   return (
+    <div className={styles.profile}>
+      <h2>Profile</h2>
     <div className={styles.profileContainer}>
       <div className={styles.profileContent}>
         <div className={styles.profilePictureSection}>
@@ -114,6 +116,7 @@ const Profile: React.FC = () => {
         <button className={styles.saveButton} onClick={handleSave}>
           Save
         </button>
+    </div>
     </div>
   );
 };

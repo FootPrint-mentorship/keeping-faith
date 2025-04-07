@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from '../../styles/viewContentModal.module.scss';
+import { FiFileText, FiPlayCircle } from 'react-icons/fi';
 
 interface ViewContentModalProps {
   isOpen: boolean;
@@ -45,11 +46,11 @@ const ViewContentModal: React.FC<ViewContentModalProps> = ({ isOpen, onClose }) 
               <div className={styles.previewInfo}>
                 <h3>Praise & Worship</h3>
                 <div className={styles.meta}>
-                  <span>📹 Video</span>
-                  <span>⏱️ 1hr 30s</span>
+                  <span><FiFileText className={styles.icon} /> Video</span>
+                  <span><FiPlayCircle className={styles.icon} /> 1hr 30s</span>
                 </div>
                 <p>Praise and worship video by odunsi. this features a powerfull praise to the lord.</p>
-                <a href="#" className={styles.visitLink}>Visit Link</a>
+                <a href="https://youtube/7VFoBqPBjg?si=H/D5rt9_THsLHP5o" className={styles.visitLink}>Visit Link</a>
               </div>
             </div>
           </div>

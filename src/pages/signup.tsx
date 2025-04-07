@@ -125,7 +125,7 @@ export default function Signup() {
               </label>
             </div>
 
-            <button type="submit" className={styles.submitButton} onClick={handleSignup}>
+            <button type="submit" className={styles.submitButton}   >
       Sign Up
     </button>
           </form>

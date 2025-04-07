@@ -1,6 +1,7 @@
 import { useState, FormEvent } from 'react';
 import Link from 'next/link';
 import styles from '@/styles/Login.module.scss';
+import { useRouter } from 'next/router';
 
 interface LoginFormData {
   firstName: string;
@@ -22,6 +23,13 @@ export default function Login() {
     confirmPassword: '',
     acceptTerms: false
   });
+
+  const router = useRouter();
+
+  const handleLogin = () => {
+    router.push('/user/user');
+  };
+
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -85,7 +93,7 @@ export default function Login() {
 
             </div>
 
-            <button type="submit" className={styles.submitButton}>
+            <button type="submit" className={styles.submitButton} onClick={handleLogin}>
               Sign In
             </button>
           </form>

@@ -4,16 +4,23 @@ import { FiMic, FiEdit, FiPlayCircle, FiArrowLeft } from "react-icons/fi";
 
 const Explore: React.FC = () => {
   const [showMusicSearch, setShowMusicSearch] = useState(false);
+  const [showBookSearch, setShowBookSearch] = useState(false);
+  const [showVideoSearch, setShowVideoSearch] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [showResults, setShowResults] = useState(false);
 
   const handleMusicClick = () => {
     setShowMusicSearch(true);
   };
+  const handleBooksClick = () => {
+    setShowBookSearch(true);
+  };
+  const handleVideosClick = () => {
+    setShowVideoSearch(true);
+  };
 
   const handleSearch = () => {
     setIsSearching(true);
-    // Simulate search delay
     setTimeout(() => {
       setIsSearching(false);
       setShowResults(true);
@@ -105,6 +112,86 @@ const Explore: React.FC = () => {
     );
   }
 
+  
+  if (showBookSearch) {
+    return (
+      <div className={styles.explore1}>
+        <h2>Effortlessly search through a vast collection of videos, audios, and books. Filter by category, tags, or</h2>
+        <h2>keywords to get exactly what you're looking for</h2>
+        <div className={styles.searchContainer}>
+          <div className={styles.searchForm}>
+            <h3>Enter your search criteria</h3>
+            <input
+              type="text"
+              placeholder="search by title, description, tags"
+              className={styles.searchInput}
+            />
+
+            <div className={styles.filterRow}>
+              <div className={styles.filterGroup}>
+                <label>Type</label>
+                <select className={styles.select}>
+                  <option value="">Select</option>
+                </select>
+              </div>
+
+              <div className={styles.filterGroup}>
+                <label>Category</label>
+                <select className={styles.select}>
+                  <option value="">Select</option>
+                </select>
+              </div>
+            </div>
+
+            <button className={styles.searchButton} onClick={handleSearch}>
+              Search
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  
+  if (showVideoSearch) {
+    return (
+      <div className={styles.explore1}>
+        <h2>Effortlessly search through a vast collection of videos, audios, and books. Filter by category, tags, or</h2>
+        <h2>keywords to get exactly what you're looking for</h2>
+        <div className={styles.searchContainer}>
+          <div className={styles.searchForm}>
+            <h3>Enter your search criteria</h3>
+            <input
+              type="text"
+              placeholder="search by title, description, tags"
+              className={styles.searchInput}
+            />
+
+            <div className={styles.filterRow}>
+              <div className={styles.filterGroup}>
+                <label>Type</label>
+                <select className={styles.select}>
+                  <option value="">Select</option>
+                </select>
+              </div>
+
+              <div className={styles.filterGroup}>
+                <label>Category</label>
+                <select className={styles.select}>
+                  <option value="">Select</option>
+                </select>
+              </div>
+            </div>
+
+            <button className={styles.searchButton} onClick={handleSearch}>
+              Search
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.explore}>
       <h1 className={styles.title}>Explore</h1>
@@ -129,14 +216,14 @@ const Explore: React.FC = () => {
             <h3>Music</h3>
           </div>
 
-          <div className={styles.category}>
+          <div className={styles.category} onClick={handleBooksClick}>
             <div className={styles.iconWrapper}>
               <FiEdit size={24} />
             </div>
             <h3>Books</h3>
           </div>
 
-          <div className={styles.category}>
+          <div className={styles.category} onClick={handleVideosClick}>
             <div className={styles.iconWrapper}>
               <FiPlayCircle size={24} />
             </div>
