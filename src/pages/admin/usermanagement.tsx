@@ -53,7 +53,7 @@ export default function UserManagement() {
 
     setTimeout(() => {
       setIsLoading(false);
-      setSuccessMessage("User updated successfully!");
+      setSuccessMessage("Update successful!");
     }, 2000);
   };
 
