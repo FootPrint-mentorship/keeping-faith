@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import styles from '../../styles/records.module.scss';
 import { LuChevronsUpDown } from 'react-icons/lu';
-import { FiSearch } from 'react-icons/fi';
 import ViewContentModal from '../modals/ViewContentModal';
 
 interface Record {

@@ -5,7 +5,6 @@ import React, { useState } from "react";
 import { useRouter } from 'next/router';
 import Explore from "@/components/pages/Explore";
 import ForgotPassword from "../forgotpassword";
-import Signup from "../signup";
 import UserSidebar from "../../components/suser/userSidebar";
 import Records from "@/components/pages/Records";
 import Profile from "@/components/pages/Profile";
@@ -38,7 +37,6 @@ const User: React.FC = () => {
         {/* Header */}
         <header style={{ background: "#f1f1f1" }}>
           <UserHeader
-            title={activePage}
             user={{
               name: "John Mark",
               role: "User",
