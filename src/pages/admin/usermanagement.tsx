@@ -6,7 +6,6 @@ import { CiFilter } from "react-icons/ci";
 import { IoMdPerson } from "react-icons/io";
 import { FaPlus } from "react-icons/fa";
 import Modal from "@/components/common/Modal";
-import UpdateForm from "@/components/sadmin/Updateform";
 import AddUser from "@/components/sadmin/Adduser";
 import SuccessCard from "@/components/sadmin/Successcard";
 import UpdateUser from "@/components/sadmin/Updateuser";
@@ -53,7 +52,7 @@ export default function UserManagement() {
 
     setTimeout(() => {
       setIsLoading(false);
-      setSuccessMessage("User updated successfully!");
+      setSuccessMessage("Update successful!");
     }, 2000);
   };
 
