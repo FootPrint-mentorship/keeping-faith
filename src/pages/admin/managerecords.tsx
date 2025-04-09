@@ -1,4 +1,5 @@
 import { useState } from "react";
+// import styles from "../../styles/managerecord.module.scss";
 import styles from "../../styles/managerecord.module.scss";
 import { GrStatusGoodSmall } from "react-icons/gr";
 import { TbCaretUpDownFilled } from "react-icons/tb";
@@ -60,7 +61,7 @@ export default function ManageRecord() {
   const [successMessage, setSuccessMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleUploadSuccess = (message) => {
+  const handleUploadSuccess = (message: string) => {
     setIsUpdateOpen(false); // Close the UpdateForm modal
     setIsLoading(true); // Show the loader
     setTimeout(() => {
