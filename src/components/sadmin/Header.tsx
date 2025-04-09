@@ -11,7 +11,7 @@ interface HeaderProps {
   };
 }
 
-const Header: React.FC<HeaderProps> = ({ title, user }) => {
+const Header: React.FC<HeaderProps> = ({ user }) => {
   return (
     <header className={styles.header}>
       <h1 className={styles.title}>Chillnlearn Christain</h1>

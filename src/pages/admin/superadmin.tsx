@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useRouter } from "next/router";
 import SuperAdminSidebar from "@/components/sadmin/Superadminsidebar";
 import Dashboard from "./dashboard";
 import ManageRecord from "./managerecords";
@@ -9,8 +8,6 @@ import Settings from "./settings";
 import Header from "@/components/sadmin/Header";
 
 const SuperAdmin: React.FC = () => {
-  const router = useRouter();
-  const { pathname } = router;
   const [activePage, setActivePage] = useState("Dashboard"); // Default page
 
   // Define the content to render based on activePage

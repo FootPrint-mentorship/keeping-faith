@@ -8,7 +8,6 @@ interface AddUserProps {
 
 // const AddUser = () => {
 const AddUser: React.FC<AddUserProps> = ({ onClose }) => {
-  const [user, setUser] = useState("");
   const [role, setRole] = useState("");
   const [formData, setFormData] = useState({
     firstName: "",
@@ -20,7 +19,7 @@ const AddUser: React.FC<AddUserProps> = ({ onClose }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("User:", user, "Role:", role);
+    console.log("Form Data:", formData, "Role:", role);
   };
 
   return (
