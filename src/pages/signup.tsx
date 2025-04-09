@@ -1,7 +1,6 @@
 import { useState, FormEvent } from 'react';
 import Link from 'next/link';
 import styles from '@/styles/Signup.module.scss';
-import { useRouter } from 'next/router';
 import axios from 'axios';
 
 interface SignupFormData {
@@ -15,7 +14,6 @@ interface SignupFormData {
 }
 
 export default function Signup() {
-  const router = useRouter();
   const [formData, setFormData] = useState<SignupFormData>({
     firstName: '',
     lastName: '',

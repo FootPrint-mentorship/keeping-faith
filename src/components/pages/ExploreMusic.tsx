@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "../../styles/exploreMusic.module.scss";
-import { FiMic, FiEdit, FiPlayCircle } from "react-icons/fi";
 
 const ExploreMusic: React.FC = () => {
   return (
@@ -12,11 +11,12 @@ const ExploreMusic: React.FC = () => {
           <p>
             Effortlessly search through a vast collection of videos, audios, and
             books. Filter by category, tags, or keywords to get exactly what
-            you're looking for.{" "}
+            you&apos;re looking for.{" "}
             <span className={styles.highlight}>
               Select any category to get started
             </span>
           </p>
+          <p>Can&apos;t find what you are looking for? Click here to make a request</p>
         </div>
 
         <div className={styles.categories}>

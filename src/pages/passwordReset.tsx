@@ -1,5 +1,4 @@
 import { useState, FormEvent } from 'react';
-import Link from 'next/link';
 import styles from '@/styles/PasswordReset.module.scss';
 
 interface PasswordResetFormData {

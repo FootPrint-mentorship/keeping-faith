@@ -55,7 +55,7 @@ const Explore: React.FC = () => {
         </div>
         
         <div className={styles.noResults}>
-          <p>cant find what you are looking for? Click here to make a request</p>
+          <p>Can&apos;t find what you are looking for? Click here to make a request</p>
           <button className={styles.newRequestButton}>New Request</button>
         </div>
       </div>
@@ -77,7 +77,7 @@ const Explore: React.FC = () => {
     return (
       <div className={styles.explore1}>
         <h2>Effortlessly search through a vast collection of videos, audios, and books. Filter by category, tags, or</h2>
-        <h2>keywords to get exactly what you're looking for</h2>
+        <h2>keywords to get exactly what you&apos;re looking for</h2>
         <div className={styles.searchContainer}>
           <div className={styles.searchForm}>
             <h3>Enter your search criteria</h3>
@@ -117,7 +117,7 @@ const Explore: React.FC = () => {
     return (
       <div className={styles.explore1}>
         <h2>Effortlessly search through a vast collection of videos, audios, and books. Filter by category, tags, or</h2>
-        <h2>keywords to get exactly what you're looking for</h2>
+        <h2>keywords to get exactly what you&apos;re looking for</h2>
         <div className={styles.searchContainer}>
           <div className={styles.searchForm}>
             <h3>Enter your search criteria</h3>
@@ -157,7 +157,7 @@ const Explore: React.FC = () => {
     return (
       <div className={styles.explore1}>
         <h2>Effortlessly search through a vast collection of videos, audios, and books. Filter by category, tags, or</h2>
-        <h2>keywords to get exactly what you're looking for</h2>
+        <h2>keywords to get exactly what you&apos;re looking for</h2>
         <div className={styles.searchContainer}>
           <div className={styles.searchForm}>
             <h3>Enter your search criteria</h3>
@@ -201,7 +201,7 @@ const Explore: React.FC = () => {
           <p>
             Effortlessly search through a vast collection of videos, audios, and
             books. Filter by category, tags, or keywords to get exactly what
-            you're looking for.{" "}
+            you&apos;re looking for.{" "}
             <span className={styles.highlight}>
               Select any category to get started
             </span>

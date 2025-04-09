@@ -1,6 +1,5 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import Image from 'next/image';
 
 interface SuccessModalProps {
   isOpen: boolean;

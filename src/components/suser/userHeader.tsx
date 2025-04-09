@@ -3,7 +3,6 @@ import Image from "next/image";
 import styles from "../../styles/userheader.module.scss";
 
 interface HeaderProps {
-  title: string;
   user: {
     name: string;
     role: string;
@@ -11,7 +10,7 @@ interface HeaderProps {
   };
 }
 
-const userHeader: React.FC<HeaderProps> = ({ title, user }) => {
+const UserHeader: React.FC<HeaderProps> = ({ user }) => {
   return (
     <header className={styles.header}>
       <h1 className={styles.title}>Keeping Faith</h1>
@@ -40,4 +39,4 @@ const userHeader: React.FC<HeaderProps> = ({ title, user }) => {
   );
 };
 
-export default userHeader;
+export default UserHeader;

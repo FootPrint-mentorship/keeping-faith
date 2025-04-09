@@ -1,6 +1,5 @@
 import { useState, FormEvent } from 'react';
 import { GoArrowLeft } from "react-icons/go";
-import Link from 'next/link';
 import styles from '@/styles/Forgotpassword.module.scss';
 import { useRouter } from 'next/router';
 
