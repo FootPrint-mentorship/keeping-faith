@@ -26,7 +26,7 @@ export default function Login() {
     setError('');
     setSuccess('');
 
-    // Validation
+
     if (!formData.email || !formData.password) {
       setError('Email and password are required');
       return;
@@ -54,7 +54,7 @@ export default function Login() {
         throw new Error(data.message || 'Login failed');
       }
 
-      // Store the token in localStorage if keepSignedIn is true
+     
       if (data.token) {
         if (formData.keepSignedIn) {
           localStorage.setItem('token', data.token);
@@ -63,12 +63,11 @@ export default function Login() {
         }
       }
 
-      // Successful login
+    
       console.log('Login successful!');
       setSuccess('Login successful! Redirecting...');
       
-      // Wait for 1 second to show the success message before redirecting
-      setTimeout(() => {
+ setTimeout(() => {
         router.push('/user/user');
       }, 1000);
     } catch (err) {

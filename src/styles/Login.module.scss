@@ -1,5 +1,5 @@
 .container {
-  min-height: 100vh;
+  min-height: 80vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -12,16 +12,15 @@
 .flexContainer {
   display: flex;
   width: 100%;
-  height: 100vh; /* Full height of the viewport */
+  height: 93vh; 
 }
 
 .formCard {
-  flex: 1; /* Take up equal space */
+  flex: 1; 
   display: flex;
   background: white;
   border-radius: 70px;
   width: 707px;
-  // max-width: 700px;
   flex-direction: column;
   overflow: hidden;
   height: 706px;
@@ -30,20 +29,12 @@
   padding-left: 46px;
 }
 
-//  .formCard {
-//   background: white;
-//   border-radius: 8px;
-//   
-//   max-width: 480px;
-//   overflow: hidden;
-// }
-
 .welcomeText {
-  flex: 1; /* Take up equal space */
+  flex: 1; 
   display: flex;
-  align-items: center; /* Center the text vertically */
-  justify-content: left; /* Center the text horizontally */
-  color: #fff; /* Change text color to white for visibility */
+  align-items: center; 
+  justify-content: left; 
+  color: #fff; 
   font-size: x-large;
 }
 .header {
