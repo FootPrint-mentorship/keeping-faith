@@ -1,4 +1,5 @@
 import { useState } from "react";
+// import styles from "../../styles/managerecord.module.scss";
 import styles from "../../styles/managerecord.module.scss";
 import { GrStatusGoodSmall } from "react-icons/gr";
 import { TbCaretUpDownFilled } from "react-icons/tb";
