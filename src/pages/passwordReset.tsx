@@ -1,7 +1,9 @@
+
 import { useState, FormEvent } from 'react';
 import styles from '@/styles/PasswordReset.module.scss';
 import { useRouter } from 'next/router';
 import axios from 'axios';
+
 
 interface PasswordResetFormData {
   code: string;
@@ -12,9 +14,11 @@ interface PasswordResetFormData {
 export default function PasswordReset() {
   const router = useRouter();
   const [formData, setFormData] = useState<PasswordResetFormData>({
+
     code: '',
     newPassword: '',
     confirmPassword: ''
+
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>('');
@@ -83,6 +87,7 @@ export default function PasswordReset() {
     <div className={styles.container}>
       <div className={styles.flexContainer}>
         <div className={styles.welcomeText}>
+
           <h1>Welcome to Keeping Faith</h1>
         </div>
         
@@ -121,6 +126,7 @@ export default function PasswordReset() {
                 <span>Enter New Password</span>
                 <input
                   type="password"
+
                   placeholder="Enter your new password"
                   value={formData.newPassword}
                   onChange={(e) => setFormData({...formData, newPassword: e.target.value})}
@@ -129,10 +135,12 @@ export default function PasswordReset() {
                 />
               </div>
              
+
               <div className={styles.inputGroup}>
                 <span>Confirm Password</span>
                 <input
                   type="password"
+
                   placeholder="Re-enter your new password"
                   value={formData.confirmPassword}
                   onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
@@ -146,6 +154,7 @@ export default function PasswordReset() {
                 disabled={isLoading}
               >
                 {isLoading ? 'Resetting Password...' : 'Reset Password'}
+
               </button>
             </form>
           </div>

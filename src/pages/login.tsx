@@ -1,7 +1,9 @@
+
 import { useState, FormEvent } from 'react';
 import Link from 'next/link';
 import styles from '@/styles/Login.module.scss';
 import { useRouter } from 'next/router';
+
 
 interface LoginFormData {
   email: string;
@@ -11,9 +13,11 @@ interface LoginFormData {
 
 export default function Login() {
   const [formData, setFormData] = useState<LoginFormData>({
+
     email: '',
     password: '',
     keepSignedIn: false
+
   });
 
   const [error, setError] = useState<string>('');
@@ -82,6 +86,7 @@ export default function Login() {
     <div className={styles.container}>
       <div className={styles.flexContainer}>
         <div className={styles.welcomeText}>
+
           <h1>Welcome to Keeping Faith</h1>
         </div>
         
@@ -107,13 +112,17 @@ export default function Login() {
                 />
               </div>
 
+
               <div className={styles.inputGroup}>
                 <span>Password</span>
                 <input
                   type="password"
                   placeholder="Enter your password"
                   value={formData.password}
+
                   onChange={(e) => setFormData({...formData, password: e.target.value})}
+
+                 
                 />
               </div>
 
@@ -121,6 +130,7 @@ export default function Login() {
                 <label className={styles.checkbox}>
                   <input
                     type="checkbox"
+
                     checked={formData.keepSignedIn}
                     onChange={(e) => setFormData({...formData, keepSignedIn: e.target.checked})}
                   />
@@ -137,6 +147,7 @@ export default function Login() {
                 disabled={isLoading}
               >
                 {isLoading ? 'Signing in...' : 'Sign In'}
+
               </button>
             </form>
           </div>

@@ -1,8 +1,10 @@
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent } from "react";
 import { GoArrowLeft } from "react-icons/go";
+bi
 import styles from '@/styles/Forgotpassword.module.scss';
 import { useRouter } from 'next/router';
 import axios from 'axios';
+
 
 interface ForgotPasswordFormData {
   email: string;
@@ -10,8 +12,10 @@ interface ForgotPasswordFormData {
 
 export default function ForgotPassword() {
   const router = useRouter();
+
   const [formData, setFormData] = useState<ForgotPasswordFormData>({
     email: ''
+
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>('');
@@ -49,14 +53,17 @@ export default function ForgotPassword() {
     }
   };
 
+
   const handleBackToLogin = () => {
     router.push('/login');
+
   };
 
   return (
     <div className={styles.container}>
       <div className={styles.flexContainer}>
         <div className={styles.welcomeText}>
+
           <h1>Welcome to Keeping Faith</h1>
         </div>
         
@@ -69,18 +76,22 @@ export default function ForgotPassword() {
               {error && <div className={styles.error}>{error}</div>}
               {success && <div className={styles.success}>{success}</div>}
               
+
               <div className={styles.inputGroup}>
                 <span>Email Address</span>
                 <input
                   type="email"
                   placeholder="Enter your email address"
                   value={formData.email}
+
                   onChange={(e) => setFormData({...formData, email: e.target.value})}
                   required
+
                 />
               </div>
 
               <div className={styles.termsGroup}>
+
                 <button type="button" onClick={handleBackToLogin} className={styles.backButton}>
                   <GoArrowLeft />
                   <span>I remember my password</span>
@@ -93,6 +104,7 @@ export default function ForgotPassword() {
                 disabled={isLoading}
               >
                 {isLoading ? 'Sending...' : 'Continue'}
+
               </button>
             </form>
           </div>

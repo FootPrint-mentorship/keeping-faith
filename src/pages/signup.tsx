@@ -1,7 +1,9 @@
+
 import { useState, FormEvent } from 'react';
 import Link from 'next/link';
 import styles from '@/styles/Signup.module.scss';
 import axios from 'axios';
+
 
 interface SignupFormData {
   firstName: string;
@@ -15,13 +17,13 @@ interface SignupFormData {
 
 export default function Signup() {
   const [formData, setFormData] = useState<SignupFormData>({
-    firstName: '',
-    lastName: '',
-    phoneNumber: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    acceptTerms: false
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    acceptTerms: false,
   });
 
   const [error, setError] = useState<string>('');
@@ -30,6 +32,7 @@ export default function Signup() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+
     setError('');
     setSuccess('');
     
@@ -119,6 +122,7 @@ export default function Signup() {
     } finally {
       setIsLoading(false);
     }
+
   };
 
   return (
@@ -126,6 +130,7 @@ export default function Signup() {
       <div className={styles.flexContainer}>
         <div className={styles.formCard}>
           <div className={styles.header}>
+
             <span>Existing user? <Link href="/signin" className={styles.signInLink}>Sign In</Link></span>
           </div>
           
@@ -136,6 +141,7 @@ export default function Signup() {
               {error && <div className={styles.error}>{error}</div>}
               {success && <div className={styles.success}>{success}</div>}
               
+
               <div className={styles.nameFields}>
                 <div className={styles.inputGroup}>
                   <span>First Name</span>
@@ -143,7 +149,9 @@ export default function Signup() {
                     type="text"
                     placeholder="Enter your first name"
                     value={formData.firstName}
+
                     onChange={(e) => setFormData({...formData, firstName: e.target.value})}
+
                   />
                 </div>
                 <div className={styles.inputGroup}>
@@ -152,7 +160,9 @@ export default function Signup() {
                     type="text"
                     placeholder="Enter your last name"
                     value={formData.lastName}
+
                     onChange={(e) => setFormData({...formData, lastName: e.target.value})}
+
                   />
                 </div>
               </div>
@@ -163,7 +173,9 @@ export default function Signup() {
                   type="tel"
                   placeholder="Enter your phone number"
                   value={formData.phoneNumber}
+
                   onChange={(e) => setFormData({...formData, phoneNumber: e.target.value})}
+
                 />
               </div>
 
@@ -172,7 +184,7 @@ export default function Signup() {
                 <input
                   type="email"
                   placeholder="Enter your email address"
-                  value={formData.email}
+
                   onChange={(e) => setFormData({...formData, email: e.target.value})}
                 />
               </div>
@@ -218,13 +230,16 @@ export default function Signup() {
                 disabled={isLoading}
               >
                 {isLoading ? 'Signing up...' : 'Sign Up'}
+
               </button>
             </form>
           </div>
         </div>
 
         <div className={styles.welcomeText}>
+
           <h1>Welcome to Keeping Faith</h1>
+
         </div>
       </div>
     </div>
