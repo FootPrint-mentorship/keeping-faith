@@ -60,7 +60,7 @@ export default function ManageRecord() {
   const [successMessage, setSuccessMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleUploadSuccess = (message) => {
+  const handleUploadSuccess = (message: string) => {
     setIsUpdateOpen(false); // Close the UpdateForm modal
     setIsLoading(true); // Show the loader
     setTimeout(() => {
