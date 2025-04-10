@@ -131,7 +131,7 @@ export default function Signup() {
         <div className={styles.formCard}>
           <div className={styles.header}>
 
-            <span>Existing user? <Link href="/signin" className={styles.signInLink}>Sign In</Link></span>
+            <span>Existing user? <Link href="/login" className={styles.signInLink}>Sign In</Link></span>
           </div>
           
           <div className={styles.formContent}>
