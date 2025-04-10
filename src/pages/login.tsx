@@ -1,7 +1,8 @@
-import { useState, FormEvent } from 'react';
-import Link from 'next/link';
-import styles from '@/styles/Login.module.scss';
-import { useRouter } from 'next/router';
+import { useState, FormEvent, useEffect } from "react";
+import Link from "next/link";
+import styles from "@/styles/Login.module.scss";
+import { useAuth } from "@/hooks/useAuth";
+import type { UseMutationResult } from "@tanstack/react-query";
 
 interface LoginFormData {
   email: string;
@@ -10,73 +11,46 @@ interface LoginFormData {
 }
 
 export default function Login() {
+  const [errorMessage, setErrorMessage] = useState("");
   const [formData, setFormData] = useState<LoginFormData>({
-    email: '',
-    password: '',
-    keepSignedIn: false
+    email: "",
+    password: "",
+    keepSignedIn: false,
   });
 
-  const [error, setError] = useState<string>('');
-  const [success, setSuccess] = useState<string>('');
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const router = useRouter();
+  const { login } = useAuth();
+  const { isPending, isError, error, isSuccess } = login as UseMutationResult<
+    any,
+    Error,
+    LoginFormData
+  >;
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setError('');
-    setSuccess('');
-
 
     if (!formData.email || !formData.password) {
-      setError('Email and password are required');
+      setErrorMessage("Email and password are required");
       return;
     }
 
-    setIsLoading(true);
-
     try {
-      console.log('Sending login request...');
-      const response = await fetch('https://keeping-faith-api.onrender.com/api/v1/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password,
-        }),
-      });
-
-      const data = await response.json();
-      console.log('API Response:', data);
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Login failed');
-      }
-
-     
-      if (data.token) {
-        if (formData.keepSignedIn) {
-          localStorage.setItem('token', data.token);
-        } else {
-          sessionStorage.setItem('token', data.token);
-        }
-      }
-
-    
-      console.log('Login successful!');
-      setSuccess('Login successful! Redirecting...');
-      
- setTimeout(() => {
-        router.push('/user/user');
-      }, 1000);
-    } catch (err) {
-      console.error('Login error:', err);
-      setError(err instanceof Error ? err.message : 'Invalid email or password');
-    } finally {
-      setIsLoading(false);
+      login.mutate(formData);
+    } catch (error: any) {
+      console.error('Login submission error:', error);
+      setErrorMessage(error.message || "An error occurred during login");
     }
   };
+
+  useEffect(() => {
+    if (isError) {
+      // @ts-ignore
+      const errorMsg = error?.response?.data?.message || error?.message || "An error occurred";
+      setErrorMessage(errorMsg);
+      setTimeout(() => {
+        setErrorMessage("");
+      }, 5000);
+    }
+  }, [isError, error]);
 
   return (
     <div className={styles.container}>
@@ -84,26 +58,40 @@ export default function Login() {
         <div className={styles.welcomeText}>
           <h1>Welcome to Keeping Faith</h1>
         </div>
-        
+
         <div className={styles.formCard}>
           <div className={styles.header}>
-            <span>New user? <Link href="/signup" className={styles.signInLink}>Sign Up</Link></span>
+            <span>
+              New user?{" "}
+              <Link href="/signup" className={styles.link}>
+                Sign Up
+              </Link>
+            </span>
           </div>
-          
+
           <div className={styles.formContent}>
-            <h1 className={styles.title}>Sign into your account</h1>
-            
+            <h1 className={styles.title}>Login</h1>
+
             <form onSubmit={handleSubmit} className={styles.form}>
-              {error && <div className={styles.error}>{error}</div>}
-              {success && <div className={styles.success}>{success}</div>}
-              
+              {errorMessage != "" && (
+                <div className={styles.error}>{errorMessage}</div>
+              )}
+              {isSuccess && (
+                <div className={styles.success}>
+                  Login successful! Redirecting...
+                </div>
+              )}
+
               <div className={styles.inputGroup}>
                 <span>Email Address</span>
                 <input
                   type="email"
                   placeholder="Enter your email address"
                   value={formData.email}
-                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
+                  required
                 />
               </div>
 
@@ -113,7 +101,10 @@ export default function Login() {
                   type="password"
                   placeholder="Enter your password"
                   value={formData.password}
-                  onChange={(e) => setFormData({...formData, password: e.target.value})}
+                  onChange={(e) =>
+                    setFormData({ ...formData, password: e.target.value })
+                  }
+                  required
                 />
               </div>
 
@@ -122,21 +113,27 @@ export default function Login() {
                   <input
                     type="checkbox"
                     checked={formData.keepSignedIn}
-                    onChange={(e) => setFormData({...formData, keepSignedIn: e.target.checked})}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        keepSignedIn: e.target.checked,
+                      })
+                    }
                   />
-                  <span>Keep me signed in </span>
+                  <span>Keep me signed in</span>
                 </label>
-                <Link href="/forgotpassword" className={styles.termsLink}>
-                  Forgot password?
+
+                <Link href="/forgotpassword" className={styles.link}>
+                  Forgot Password?
                 </Link>
               </div>
 
-              <button 
-                type="submit" 
+              <button
+                type="submit"
                 className={styles.submitButton}
-                disabled={isLoading}
+                disabled={isPending}
               >
-                {isLoading ? 'Signing in...' : 'Sign In'}
+                {isPending ? "Logging in..." : "Login"}
               </button>
             </form>
           </div>

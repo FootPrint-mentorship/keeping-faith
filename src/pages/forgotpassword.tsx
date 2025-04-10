@@ -2,7 +2,9 @@ import { useState, FormEvent } from 'react';
 import { GoArrowLeft } from "react-icons/go";
 import styles from '@/styles/Forgotpassword.module.scss';
 import { useRouter } from 'next/router';
-import axios from 'axios';
+import { useAuth } from '@/hooks/useAuth';
+import type { UseMutationResult } from '@tanstack/react-query';
+import type { ForgotPasswordData } from '@/services/authService';
 
 interface ForgotPasswordFormData {
   email: string;
@@ -13,40 +15,18 @@ export default function ForgotPassword() {
   const [formData, setFormData] = useState<ForgotPasswordFormData>({
     email: ''
   });
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string>('');
-  const [success, setSuccess] = useState<string>('');
+
+  const { forgotPassword } = useAuth();
+  const { isPending, isError, error, isSuccess } = forgotPassword as UseMutationResult<any, Error, ForgotPasswordData>;
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-    setError('');
-    setSuccess('');
-
-    try {
-      const response = await axios.post(
-        'https://keeping-faith-api.onrender.com/api/v1/auth/forgot-password',
-        {
-          email: formData.email
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        }
-      );
-
-      if (response.status === 200) {
-        setSuccess('Password reset instructions have been sent to your email.');
-        setTimeout(() => {
-          router.push('/passwordReset');
-        }, 2000);
-      }
-    } catch (error: any) {
-      setError(error.response?.data?.message || 'Failed to send reset instructions. Please try again.');
-    } finally {
-      setIsLoading(false);
+    
+    if (!formData.email) {
+      return;
     }
+
+    forgotPassword.mutate({ email: formData.email });
   };
 
   const handleBackToLogin = () => {
@@ -66,8 +46,8 @@ export default function ForgotPassword() {
             <p>A code will be sent to the email provided. This code will be used to reset your account password.</p>
             
             <form onSubmit={handleSubmit} className={styles.form}>
-              {error && <div className={styles.error}>{error}</div>}
-              {success && <div className={styles.success}>{success}</div>}
+              {isError && <div className={styles.error}>{error?.message || 'Failed to send reset instructions'}</div>}
+              {isSuccess && <div className={styles.success}>Password reset instructions have been sent to your email.</div>}
               
               <div className={styles.inputGroup}>
                 <span>Email Address</span>
@@ -90,9 +70,9 @@ export default function ForgotPassword() {
               <button 
                 type="submit" 
                 className={styles.submitButton}
-                disabled={isLoading}
+                disabled={isPending}
               >
-                {isLoading ? 'Sending...' : 'Continue'}
+                {isPending ? 'Sending...' : 'Continue'}
               </button>
             </form>
           </div>
