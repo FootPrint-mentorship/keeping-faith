@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import SuperAdminSidebar from "@/components/sadmin/Superadminsidebar";
 import Dashboard from "./dashboard";
-import ManageRecord from "./managerecords";
+import ManageRecord from "../../components/sadmin/managerecords";
 import ErrorHandle from "./errorhandle";
 import UserManagement from "./usermanagement";
 import Settings from "./settings";
