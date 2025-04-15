@@ -56,6 +56,7 @@ export default function Login() {
     <div className={styles.container}>
       <div className={styles.flexContainer}>
         <div className={styles.welcomeText}>
+
           <h1>Welcome to Keeping Faith</h1>
         </div>
 
@@ -95,6 +96,7 @@ export default function Login() {
                 />
               </div>
 
+
               <div className={styles.inputGroup}>
                 <span>Password</span>
                 <input
@@ -112,6 +114,7 @@ export default function Login() {
                 <label className={styles.checkbox}>
                   <input
                     type="checkbox"
+
                     checked={formData.keepSignedIn}
                     onChange={(e) =>
                       setFormData({
@@ -142,3 +145,4 @@ export default function Login() {
     </div>
   );
 }
+

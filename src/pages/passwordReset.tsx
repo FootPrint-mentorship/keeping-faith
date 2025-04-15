@@ -6,6 +6,7 @@ import { useAuth } from '@/hooks/useAuth';
 import type { UseMutationResult } from '@tanstack/react-query';
 import type { ResetPasswordData } from '@/services/authService';
 import Link from 'next/link';
+import axios from 'axios';
 
 interface PasswordResetFormData {
   code: string;
@@ -16,10 +17,13 @@ interface PasswordResetFormData {
 export default function PasswordReset() {
   const router = useRouter();
   const [formData, setFormData] = useState<PasswordResetFormData>({
-    code: '',
-    newPassword: '',
-    confirmPassword: ''
+    code: "",
+    newPassword: "",
+    confirmPassword: "",
   });
+
+  const [isResending, setIsResending] = useState(false);
+  const [resendError, setResendError] = useState<string | null>(null);
 
   const { resetPassword } = useAuth();
   const {  isError, error, isSuccess, isPending } = resetPassword;
@@ -48,18 +52,35 @@ export default function PasswordReset() {
     resetPassword.mutate(formData);
   };
 
-  // useEffect(() => {
-  //   if (isSuccess) {
-  //     setTimeout(() => {
-        
-  //     }, 5000);
-  //     router.push('/login');
-  //   }
-  // }, [isSuccess, router]);
-
   const handleResendCode = async () => {
-    // You can implement this by calling forgotPassword mutation again
-    // with the email from localStorage or context
+    setIsResending(true);
+    setResendError(null);
+
+    try {
+      // Get email from localStorage that was saved during forgot password
+      const email = localStorage.getItem('resetEmail');
+      if (!email) {
+        throw new Error('Email not found. Please try the forgot password process again.');
+      }
+
+      await axios.post(
+        'https://keeping-faith-api.onrender.com/api/v1/auth/resend-reset-code',
+        { email },
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+
+      // Show success message
+      alert('Reset code has been resent to your email');
+    } catch (err: any) {
+      console.error('Error resending code:', err);
+      setResendError(err.response?.data?.message || err.message || 'Failed to resend code');
+    } finally {
+      setIsResending(false);
+    }
   };
 
   return (
@@ -107,9 +128,11 @@ export default function PasswordReset() {
                       type="button" 
                       onClick={handleResendCode}
                       className={styles.resendButton}
+                      disabled={isResending}
                     >
-                      Re-send Code
+                      {isResending ? 'Sending...' : 'Re-send Code'}
                     </button>
+                    {resendError && <div className={styles.error}>{resendError}</div>}
                   </div>
                 </div>
 

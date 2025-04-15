@@ -2,6 +2,7 @@
 
 import UserHeader from "@/components/suser/userHeader";
 import React, { useState } from "react";
+import { useAuthContext } from "@/contexts/AuthContext";
 import { useRouter } from 'next/router';
 import Explore from "@/components/pages/Explore";
 import ForgotPassword from "../forgotpassword";
@@ -12,6 +13,7 @@ import Profile from "@/components/pages/Profile";
 const User: React.FC = () => {
   const router = useRouter();
   const { pathname } = router;
+  const { profile } = useAuthContext();
   const [activePage, setActivePage] = useState("Home"); // Default page
 
   // Define the content to render based on activePage
@@ -38,9 +40,9 @@ const User: React.FC = () => {
         <header style={{ background: "#f1f1f1" }}>
           <UserHeader
             user={{
-              name: "John Mark",
-              role: "User",
-              avatarUrl: undefined,
+              name: profile?.username || "",
+              role: profile?.role || "User",
+              avatarUrl: profile?.profile_picture,
             }}
           />
         </header>
