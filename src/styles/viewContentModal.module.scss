@@ -47,6 +47,47 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+
+  .loading,
+  .error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+    text-align: center;
+    
+    p {
+      font-size: 1.1rem;
+      color: #666;
+    }
+  }
+
+  .loading {
+    p {
+      &::after {
+        content: '...';
+        animation: dots 1.5s steps(4, end) infinite;
+      }
+    }
+  }
+
+  .error {
+    p {
+      color: #ff5722;
+    }
+  }
+
+  @keyframes dots {
+    0%, 20% {
+      content: '.';
+    }
+    40% {
+      content: '..';
+    }
+    60%, 100% {
+      content: '...';
+    }
+  }
 }
 
 .formGroup {
