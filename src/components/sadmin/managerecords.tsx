@@ -59,14 +59,37 @@ export default function ManageRecord() {
   const [isUpdateOpen, setIsUpdateOpen] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isDeleteSuccessful, setIsDeleteSuccessful] = useState(false);
+  const [isUpdateSuccessful, setIsUpdateSuccessful] = useState(false);
+
+  const handleDelete = () => {
+    setIsUpdateOpen(false); // Close the update modal
+    setIsLoading(true); // Show loading spinner
+
+    setTimeout(() => {
+      setIsLoading(false);
+      setSuccessMessage("Record deleted successfully!");
+    }, 1500);
+  };
+
+  const handleUpdate = () => {
+    setIsUpdateOpen(false); // Close the update modal
+    setIsLoading(true); // Show loading spinner
+
+    setTimeout(() => {
+      setIsLoading(false);
+      setSuccessMessage("Update successful!");
+    }, 1500);
+  };
 
   const handleUploadSuccess = (message: string) => {
-    setIsUpdateOpen(false); // Close the UpdateForm modal
-    setIsLoading(true); // Show the loader
+    setIsModalOpen(false);
+    setIsUpdateOpen(false);
+    setIsLoading(true);
     setTimeout(() => {
-      setIsLoading(false); // Hide the loader
-      setSuccessMessage(message); // Show the success message
-    }, 1500); // Adjust the delay if necessary
+      setIsLoading(false);
+      setSuccessMessage(message);
+    }, 1500);
   };
 
   const filteredData = data.filter((item) =>
@@ -170,9 +193,16 @@ export default function ManageRecord() {
           />
         </Modal>
 
-        <Modal isOpen={isUpdateOpen} onClose={() => setIsUpdateOpen(false)}>
+        {/* <Modal isOpen={isUpdateOpen} onClose={() => setIsUpdateOpen(false)}>
           <UpdateForm
             onClose={() => handleUploadSuccess("Update successful!")}
+          />
+        </Modal> */}
+        <Modal isOpen={isUpdateOpen} onClose={() => setIsUpdateOpen(false)}>
+          <UpdateForm
+            onClose={() => setIsUpdateOpen(false)}
+            onDelete={handleDelete}
+            onUpdate={handleUpdate}
           />
         </Modal>
 
@@ -190,6 +220,15 @@ export default function ManageRecord() {
             />
           </Modal>
         )}
+
+        {/* {successMessage && !isLoading && (
+          <Modal isOpen={true} onClose={() => setSuccessMessage("")}>
+            <SuccessCard
+              message={successMessage}
+              onClose={() => setSuccessMessage("")}
+            />
+          </Modal>
+        )} */}
       </div>
     </div>
   );

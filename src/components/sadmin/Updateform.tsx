@@ -5,9 +5,15 @@ import PreviewCard from "./Previewcard";
 
 interface UpdateFormProps {
   onClose: () => void;
+  onDelete?: () => void;
+  onUpdate?: () => void;
 }
 
-const UpdateForm: React.FC<UpdateFormProps> = ({ onClose }) => {
+const UpdateForm: React.FC<UpdateFormProps> = ({
+  onClose,
+  onDelete,
+  onUpdate,
+}) => {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -126,12 +132,18 @@ const UpdateForm: React.FC<UpdateFormProps> = ({ onClose }) => {
           <button
             className={styles.deletebutton}
             type="submit"
-            onClick={onClose}
+            // onClick={onClose}
+            onClick={onDelete || onClose}
           >
             Delete
           </button>
           {/* ............. Upload btn ......... */}
-          <button className={styles.button} type="submit" onClick={onClose}>
+          <button
+            className={styles.button}
+            type="submit"
+            onClick={onUpdate}
+            // onClick={onClose}
+          >
             Update
           </button>
         </div>
