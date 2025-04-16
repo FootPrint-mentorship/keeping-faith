@@ -59,12 +59,10 @@ export default function ManageRecord() {
   const [isUpdateOpen, setIsUpdateOpen] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [isDeleteSuccessful, setIsDeleteSuccessful] = useState(false);
-  const [isUpdateSuccessful, setIsUpdateSuccessful] = useState(false);
 
   const handleDelete = () => {
-    setIsUpdateOpen(false); // Close the update modal
-    setIsLoading(true); // Show loading spinner
+    setIsUpdateOpen(false);
+    setIsLoading(true);
 
     setTimeout(() => {
       setIsLoading(false);
@@ -73,8 +71,8 @@ export default function ManageRecord() {
   };
 
   const handleUpdate = () => {
-    setIsUpdateOpen(false); // Close the update modal
-    setIsLoading(true); // Show loading spinner
+    setIsUpdateOpen(false);
+    setIsLoading(true);
 
     setTimeout(() => {
       setIsLoading(false);
@@ -193,11 +191,6 @@ export default function ManageRecord() {
           />
         </Modal>
 
-        {/* <Modal isOpen={isUpdateOpen} onClose={() => setIsUpdateOpen(false)}>
-          <UpdateForm
-            onClose={() => handleUploadSuccess("Update successful!")}
-          />
-        </Modal> */}
         <Modal isOpen={isUpdateOpen} onClose={() => setIsUpdateOpen(false)}>
           <UpdateForm
             onClose={() => setIsUpdateOpen(false)}
@@ -220,15 +213,6 @@ export default function ManageRecord() {
             />
           </Modal>
         )}
-
-        {/* {successMessage && !isLoading && (
-          <Modal isOpen={true} onClose={() => setSuccessMessage("")}>
-            <SuccessCard
-              message={successMessage}
-              onClose={() => setSuccessMessage("")}
-            />
-          </Modal>
-        )} */}
       </div>
     </div>
   );
