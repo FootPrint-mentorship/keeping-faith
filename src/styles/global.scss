@@ -7,3 +7,24 @@ body {
   margin: 0;
   padding: 0;
 }
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.rounded-full {
+  border-radius: 9999px; /* Or a very large value */
+}
+
+.bg-gray-300 {
+  background-color: #D1D5DB; /* Tailwind's gray-300 color */
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: .5;
+  }
+}
+

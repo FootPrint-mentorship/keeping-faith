@@ -1,4 +1,5 @@
 import { PersistStorage } from "zustand/middleware";
+import CryptoJS from "crypto-js";
 
 type StorageType = "localStorage" | "sessionStorage";
 

@@ -17,11 +17,23 @@ interface Record {
   status: "approved" | "pending" | "rejected";
   requestedBy: string;
   approvedBy: string | null;
-  createdAt: string | Date;
-  updatedAt: string | Date;
+  createdAt: string;
+  updatedAt: string;
   __v: number;
 }
 
 export interface GetRecordsResponse extends GenericApiResponse {
   records: Record[];
+}
+
+export interface PostRecordInterface {
+  title: string;
+  description: string;
+  link: string;
+  category: string;
+  subCategory: string;
+}
+
+export interface GetSingleRecordRes extends GenericApiResponse {
+  record: Record;
 }

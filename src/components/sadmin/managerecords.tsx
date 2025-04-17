@@ -1,57 +1,23 @@
-import { useState } from "react";
-import styles from "../../styles/recordManagement.module.scss";
-import { GrStatusGoodSmall } from "react-icons/gr";
-import { TbCaretUpDownFilled } from "react-icons/tb";
-import { IoSearch } from "react-icons/io5";
-import { CiFilter } from "react-icons/ci";
-import { FaPlus } from "react-icons/fa";
+import queryKeys from "@/api/misc/queryKeys";
+import { GetRecords, PostRecord } from "@/api/records.api";
 import Modal from "@/components/common/Modal";
-import UploadForm from "@/components/sadmin/uploadForm";
 import SuccessCard from "@/components/sadmin/Successcard";
 import UpdateForm from "@/components/sadmin/Updateform";
-
-const data = [
-  {
-    name: "Private & Worship",
-    category: "Video",
-    addedBy: "Dami Adeloba",
-    type: "Newest",
-    status: "Approved",
-    date: "21-Oct-2023, 10:04am",
-  },
-  {
-    name: "Divine Adoration",
-    category: "Audio",
-    addedBy: "John Mark",
-    type: "Most Viewed",
-    status: "Pending",
-    date: "21-Oct-2023, 10:04am",
-  },
-  {
-    name: "Sacred Devotion",
-    category: "Book",
-    addedBy: "Dami Adeloba",
-    type: "Newest",
-    status: "Approved",
-    date: "21-Oct-2023, 10:04am",
-  },
-  {
-    name: "Heavenly Awareness",
-    category: "Video",
-    addedBy: "Kola Mark",
-    type: "Newest",
-    status: "Pending",
-    date: "21-Oct-2023, 10:04am",
-  },
-  {
-    name: "Spiritual Homage",
-    category: "Video",
-    addedBy: "Kola Mark",
-    type: "Newest",
-    status: "Approved",
-    date: "21-Oct-2023, 10:04am",
-  },
-];
+import UploadForm, { UploadFormData } from "@/components/sadmin/uploadForm";
+import { appToast } from "@/utils/appToast";
+import { handleApiErrors } from "@/utils/handleErrors";
+import { dayJSFormatter } from "@/utils/time";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
+import { CiFilter } from "react-icons/ci";
+import { FaPlus } from "react-icons/fa";
+import { GrStatusGoodSmall } from "react-icons/gr";
+import { TbCaretUpDownFilled } from "react-icons/tb";
+import styles from "../../styles/recordManagement.module.scss";
+import AppLoadingSkeleton from "../common/AppLoadingSkeleton";
+import AppSearchInput from "../common/AppSearchInput";
+import DuplicateLoader from "../common/DuplicateLoader";
+import EmptyTableData from "../common/EmptyTableData";
 
 export default function ManageRecord() {
   const [search, setSearch] = useState("");
@@ -59,6 +25,8 @@ export default function ManageRecord() {
   const [isUpdateOpen, setIsUpdateOpen] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const PostRecordApi = useMutation({ mutationFn: PostRecord });
+  const queryClient = useQueryClient();
 
   const handleDelete = () => {
     setIsUpdateOpen(false);
@@ -80,36 +48,54 @@ export default function ManageRecord() {
     }, 1500);
   };
 
-  const handleUploadSuccess = (message: string) => {
-    setIsModalOpen(false);
-    setIsUpdateOpen(false);
+  const handleUpload = async (data: UploadFormData) => {
     setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      setSuccessMessage(message);
-    }, 1500);
+    const response = await PostRecordApi?.mutateAsync({
+      category: data?.category?.trim(),
+      description: data?.description?.trim(),
+      link: data?.link?.trim(),
+      subCategory: data?.subCategory?.trim(),
+      title: data?.title?.trim(),
+    });
+    setIsLoading(false);
+
+    if (response?.ok) {
+      setIsModalOpen(false);
+      appToast.Success("Upload successful!");
+      queryClient.invalidateQueries({ queryKey: [queryKeys.GET_RECORDS] });
+    } else {
+      handleApiErrors(response);
+    }
   };
 
-  const filteredData = data.filter((item) =>
-    item.name.toLowerCase().includes(search.toLowerCase())
-  );
+  const { data, isLoading: isDataLoading } = useQuery({
+    queryKey: [queryKeys.GET_RECORDS, search],
+    queryFn: async () => {
+      const response = await GetRecords({
+        category: "",
+        subCategory: "",
+        search,
+      });
+      if (response.ok) {
+        return response?.data?.records;
+      } else {
+        handleApiErrors(response);
+        return null;
+      }
+    },
+  });
 
   return (
     <div>
       <h2 className={styles.title}> Manage Record</h2>
       <div className={styles.container}>
         <div className={styles.header}>
-          <div className={styles.searchContainer}>
-            <IoSearch className={styles.searchIcon} />
-            <input
-              type="text"
-              placeholder="Search name/title"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className={styles.search}
-            />
-            <button className={styles.searchButton}>Search</button>
-          </div>
+          <AppSearchInput
+            placeholder="Search name/title"
+            onSearchDone={(value) => {
+              setSearch(value);
+            }}
+          />
 
           <button
             className={styles.updateButton}
@@ -144,26 +130,62 @@ export default function ManageRecord() {
             </tr>
           </thead>
           <tbody>
-            {filteredData.map((item, index) => (
-              <tr key={index}>
-                <td>{item.name}</td>
-                <td>{item.category}</td>
-                <td>{item.addedBy}</td>
-                <td>{item.type}</td>
-                <td className={styles[item.status.toLowerCase()]}>
-                  <GrStatusGoodSmall /> {item.status}
-                </td>
-                <td>{item.date}</td>
-                <td>
-                  <button
-                    className={styles.viewButton}
-                    onClick={() => setIsUpdateOpen(true)}
-                  >
-                    View
-                  </button>
-                </td>
-              </tr>
-            ))}
+            {isDataLoading ? (
+              <DuplicateLoader
+                loader={
+                  <tr>
+                    <td>
+                      <AppLoadingSkeleton />
+                    </td>
+                    <td>
+                      <AppLoadingSkeleton />
+                    </td>
+                    <td>
+                      <AppLoadingSkeleton />
+                    </td>
+                    <td>
+                      <AppLoadingSkeleton />
+                    </td>
+                    <td>
+                      <AppLoadingSkeleton />
+                    </td>
+                    <td>
+                      <AppLoadingSkeleton />
+                    </td>
+                    <td>
+                      <button className={styles.viewButton}>View</button>
+                    </td>
+                  </tr>
+                }
+              />
+            ) : !data || data?.length < 1 ? (
+              <div>
+                <EmptyTableData />
+              </div>
+            ) : (
+              data?.map((item, index) => (
+                <tr key={index}>
+                  <td>{item.title}</td>
+                  <td>{item.category}</td>
+                  <td>{item.requestedBy}</td>
+                  <td></td>
+                  <td className={styles[item.status.toLowerCase()]}>
+                    <GrStatusGoodSmall /> {item.status}
+                  </td>
+                  <td>
+                    {dayJSFormatter(item.createdAt, "DD-MMM-YYYY, h:mma")}
+                  </td>
+                  <td>
+                    <button
+                      className={styles.viewButton}
+                      onClick={() => setIsUpdateOpen(true)}
+                    >
+                      View
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
 
@@ -184,11 +206,7 @@ export default function ManageRecord() {
 
         {/* Modals */}
         <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-          <UploadForm
-            onClose={() =>
-              handleUploadSuccess("Upload added & published successfully!")
-            }
-          />
+          <UploadForm onClose={(data) => handleUpload(data)} />
         </Modal>
 
         <Modal isOpen={isUpdateOpen} onClose={() => setIsUpdateOpen(false)}>

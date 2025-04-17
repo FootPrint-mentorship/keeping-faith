@@ -1,4 +1,5 @@
 import {
+  LoginRequest,
   LoginResponse,
   RegisterRequest,
   RegisterResponse,
@@ -10,7 +11,7 @@ import { GenericApiResponse } from "@/types/api";
 export const Register = (data: RegisterRequest) =>
   baseApi.post<RegisterResponse>("/auth/register", data);
 
-export const Login = (data: LoginResponse) =>
+export const Login = (data: LoginRequest) =>
   baseApi.post<LoginResponse>("/auth/login", data);
 
 export const VerifyEmail = ({ token }: { token: string }) =>

@@ -25,11 +25,12 @@ export interface UserData {
   phone_number: string;
 }
 
+export type UserRole = "regular" | "superadmin";
 interface AuthUserData extends UserData {
   password: string;
   verified: boolean;
   suspended: boolean;
-  role: "regular" | "admin" | string;
+  role: UserRole;
   resetCode: string | null;
   resetCodeExpires: string | Date | null;
   createdAt: string | Date;

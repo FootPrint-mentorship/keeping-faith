@@ -41,7 +41,14 @@ const UpdateForm: React.FC<UpdateFormProps> = ({
   const PreviewImage = "/images/placeholder.png";
 
   return (
-    <div className={styles.uploadContainer}>
+    <div
+      style={{
+        height: "80dvh",
+        overflowY: "scroll",
+        paddingTop: 100,
+      }}
+      className={styles.uploadContainer}
+    >
       <form className={styles.uploadForm} onSubmit={handleSubmit}>
         <div className={styles.formname}>
           <h2 className={styles.title}>Update Content</h2>
