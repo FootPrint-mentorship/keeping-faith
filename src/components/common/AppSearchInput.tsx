@@ -18,9 +18,7 @@ interface SearchInputProps
 }
 
 const AppSearchInput = ({
-  className,
   onSearchDone,
-  onReset,
   ...props
 }: SearchInputProps): JSX.Element => {
   const [value, setValue] = useState("");
@@ -29,7 +27,7 @@ const AppSearchInput = ({
 
   useEffect(() => {
     onSearchDone(debouncedSearch);
-  }, [debouncedSearch]);
+  }, [debouncedSearch, onSearchDone]);
 
   return (
     <div className={styles.searchContainer}>

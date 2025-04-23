@@ -6,8 +6,8 @@ import {
 } from "@/api/records.api";
 import Modal from "@/components/common/Modal";
 import SuccessCard from "@/components/sadmin/Successcard";
-import UpdateForm from "@/components/sadmin/Updateform";
 import UploadForm, { UploadFormData } from "@/components/sadmin/uploadForm";
+import { useRecordsStore } from "@/stores/records.store";
 import { GetSingleRecordRes } from "@/types/api/records.types";
 import { appToast } from "@/utils/appToast";
 import { handleApiErrors } from "@/utils/handleErrors";
@@ -24,7 +24,6 @@ import AppLoadingSkeleton from "../common/AppLoadingSkeleton";
 import AppSearchInput from "../common/AppSearchInput";
 import DuplicateLoader from "../common/DuplicateLoader";
 import EmptyTableData from "../common/EmptyTableData";
-import { useRecordsStore } from "@/stores/records.store";
 
 export default function ManageRecord() {
   const [search, setSearch] = useState("");

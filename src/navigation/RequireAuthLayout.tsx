@@ -1,11 +1,8 @@
-import { JSX, useEffect } from "react";
+import { JSX } from "react";
 import { useStore } from "zustand";
-import { useRouter } from "next/router";
 
 import { UserRole } from "@/types/api/auth.types";
-import { appToast } from "@/utils/appToast";
 import { authStore } from "../stores/auth.store";
-import routes from "./routes";
 
 interface Props {
   children: JSX.Element;
@@ -14,8 +11,8 @@ interface Props {
 
 const RequireAuthLayout = ({ children, role }: Props): JSX.Element => {
   const { loginResponse, logout } = useStore(authStore);
-  const router = useRouter();
-
+  // const router = useRouter();
+  console.log(logout, role);
   // useEffect(() => {
   //   if (!loginResponse?.access) {
   //     appToast.Warning("Session expired. Please login again.");
