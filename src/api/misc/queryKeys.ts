@@ -3,5 +3,5 @@ export default Object.freeze({
     ALL: "GetAllUsers",
   },
 
-  GET_RECORDS: "GET_RECORDS",
+  GET_RECORD_REQUESTS: "GET_RECORD_REQUESTS",
 });

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "@/styles/usermanagement.module.scss";
 import { TbCaretUpDownFilled } from "react-icons/tb";
 import { IoSearch } from "react-icons/io5";
@@ -9,12 +9,27 @@ import Modal from "@/components/common/Modal";
 import AddUser from "@/components/sadmin/Adduser";
 import SuccessCard from "@/components/sadmin/Successcard";
 import UpdateUser from "@/components/sadmin/Updateuser";
-import { useQuery } from "@tanstack/react-query";
-import { getAllUsers } from "@/api/superadmin.api";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  deleteUser,
+  getAllUsers,
+  suspendUser,
+  unSuspendUser,
+} from "@/api/superadmin.api";
 import queryKeys from "@/api/misc/queryKeys";
 import { handleApiErrors } from "@/utils/handleErrors";
 import { dayJSFormatter } from "@/utils/time";
 import RequireAuthLayout from "@/navigation/RequireAuthLayout";
+import EmptyTableData from "@/components/common/EmptyTableData";
+import AppLoadingSkeleton from "@/components/common/AppLoadingSkeleton";
+import DuplicateLoader from "@/components/common/DuplicateLoader";
+import { DEFAULT_API_DATA_SIZE } from "@/api/base.api";
+import useDebounce from "@/hooks/useDebouncer";
+import { useSuperAdminStore } from "@/stores/superAdmin.store";
+import ActionPromptModal from "@/components/sadmin/ActionPromptModal";
+import { appToast } from "@/utils/appToast";
+import { ApiResponse } from "apisauce";
+import { GenericApiResponse } from "@/types/api";
 
 export default function UserManagement() {
   const [search, setSearch] = useState("");
@@ -22,12 +37,19 @@ export default function UserManagement() {
   const [isUpdateUserOpen, setIsUpdateUserOpen] = useState(false);
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [value, setValue] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
+  const [isSuspendConfirmOpen, setIsSuspendConfirmOpen] = useState(false);
 
-  const { data } = useQuery({
-    queryKey: [queryKeys.USERS.ALL],
+  const { data, isLoading: isDataLoading } = useQuery({
+    queryKey: [queryKeys.USERS.ALL, search],
     queryFn: async () => {
-      const response = await getAllUsers();
+      const response = await getAllUsers({
+        limit: DEFAULT_API_DATA_SIZE,
+        page: 1,
+        searchQuery: search,
+      });
       if (response.ok) {
         return response?.data?.data;
       } else {
@@ -37,14 +59,13 @@ export default function UserManagement() {
     },
   });
 
-  const handleDeactivate = () => {
+  const handleOnDeleteClick = () => {
     setIsUpdateUserOpen(false);
-    setIsLoading(true);
-
-    setTimeout(() => {
-      setIsLoading(false);
-      setSuccessMessage("User deactivated successfully!");
-    }, 2000);
+    setIsDeleteConfirmOpen(true);
+  };
+  const handleOnSuspendClick = () => {
+    setIsUpdateUserOpen(false);
+    setIsSuspendConfirmOpen(true);
   };
 
   const handleUpdate = () => {
@@ -62,6 +83,74 @@ export default function UserManagement() {
     setIsSuccessOpen(true);
   };
 
+  const debouncedSearch = useDebounce(value, 500);
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    setSearch(debouncedSearch);
+  }, [debouncedSearch]);
+
+  const { setSelectedUser, selectedUser } = useSuperAdminStore();
+
+  const handleUserDelete = async () => {
+    if (!selectedUser?._id) return appToast.Warning("User Id not found.");
+    // setIsUpdateUserOpen(false);
+    // setIsLoading(true);
+    // setTimeout(() => {
+    //   setIsLoading(false);
+    //   setSuccessMessage("User deactivated successfully!");
+    // }, 2000);
+
+    setIsDeleteConfirmOpen(false);
+    setIsLoading(true);
+    const response = await deleteUser(selectedUser?._id);
+    setIsLoading(false);
+
+    if (response?.ok) {
+      const message = response?.data?.message ?? "User deleted succesfully.";
+      queryClient.resetQueries({ queryKey: [queryKeys.USERS.ALL] });
+      appToast.Success(message);
+
+      // setSuccessMessage(message);
+      setSelectedUser(null);
+    } else {
+      setIsDeleteConfirmOpen(true);
+      handleApiErrors(response);
+    }
+  };
+
+  const handleUserSuspendOrUnsuspend = async () => {
+    if (!selectedUser?._id) return appToast.Warning("User Id not found.");
+    const isUserActive = !!selectedUser?.isActive; // TODO Replace with selectedUser.status
+    // setIsUpdateUserOpen(false);
+    // setIsLoading(true);
+    // setTimeout(() => {
+    //   setIsLoading(false);
+    //   setSuccessMessage("User deactivated successfully!");
+    // }, 2000);
+
+    setIsSuspendConfirmOpen(false);
+    setIsLoading(true);
+    let response: ApiResponse<GenericApiResponse, GenericApiResponse> | null =
+      null;
+
+    if (isUserActive) response = await suspendUser(selectedUser._id);
+    else response = await unSuspendUser(selectedUser?._id);
+    setIsLoading(false);
+
+    if (response?.ok) {
+      const message =
+        response?.data?.message ??
+        `User ${isUserActive ? "deactivated" : "activated"} successfully.`;
+      queryClient.resetQueries({ queryKey: [queryKeys.USERS.ALL] });
+      appToast.Success(message);
+
+      // setSuccessMessage(message);
+      setSelectedUser(null);
+    } else {
+      setIsSuspendConfirmOpen(true);
+      handleApiErrors(response);
+    }
+  };
   return (
     <RequireAuthLayout role="superadmin">
       <div className={styles.main}>
@@ -74,8 +163,8 @@ export default function UserManagement() {
                 <input
                   type="text"
                   placeholder="Search name/title"
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
+                  value={value}
+                  onChange={(e) => setValue(e.target.value)}
                   className={styles.search}
                 />
                 <button className={styles.searchButton}>Search</button>
@@ -131,66 +220,113 @@ export default function UserManagement() {
               </tr>
             </thead>
             <tbody>
-              {data?.users.map((item, index) => (
-                <tr key={index}>
-                  <td className={styles.nameCell}>
-                    <div className={styles.nameWrapper}>
-                      <IoMdPerson className={styles.person} />
-                      <span>
-                        {item.first_name} {item?.last_name}
-                      </span>
-                    </div>
-                  </td>
-                  <td>{item.role}</td>
-                  <td>
-                    {dayJSFormatter(item.createdAt, "DD-MMM-YYYY, h:mma")}
-                  </td>
-                  <td>
-                    <button
-                      className={styles.viewButton}
-                      onClick={() => setIsUpdateUserOpen(true)}
-                    >
-                      Update
-                    </button>
-                    {/* Update User Modal */}
-                    <Modal
-                      isOpen={isUpdateUserOpen}
-                      onClose={() => setIsUpdateUserOpen(false)}
-                    >
-                      <UpdateUser
-                        onClose={() => setIsUpdateUserOpen(false)}
-                        onDeactivate={handleDeactivate}
-                        onUpdate={handleUpdate}
-                      />
-                    </Modal>
-                    {/* Loader Modal */}
-                    <Modal
-                      isOpen={isLoading}
-                      onClose={() => setIsLoading(false)}
-                    >
-                      <div className={styles.loaderContainer}>
-                        <div className={styles.loader}></div>
-                        <p>Processing...</p>
-                      </div>
-                    </Modal>
+              {isDataLoading ? (
+                <DuplicateLoader
+                  loader={
+                    <tr>
+                      <td className={styles.nameCell}>
+                        <div className={styles.nameWrapper}>
+                          <IoMdPerson className={styles.person} />
 
-                    {/* Success Modal (Only appears after update modal closes) */}
-                    {successMessage && (
-                      <Modal
-                        isOpen={!!successMessage}
-                        onClose={() => setSuccessMessage("")}
+                          <AppLoadingSkeleton />
+                        </div>
+                      </td>
+                      <td>
+                        <AppLoadingSkeleton />
+                      </td>
+                      <td>
+                        <AppLoadingSkeleton />
+                      </td>
+                      <td>
+                        <button className={styles.viewButton}>Update</button>
+                      </td>
+                    </tr>
+                  }
+                />
+              ) : !data || data?.users?.length < 1 ? (
+                <div>
+                  <EmptyTableData />
+                </div>
+              ) : (
+                data?.users.map((item, index) => (
+                  <tr key={index}>
+                    <td className={styles.nameCell}>
+                      <div className={styles.nameWrapper}>
+                        <IoMdPerson className={styles.person} />
+                        <span>
+                          {item.first_name} {item?.last_name}
+                        </span>
+                      </div>
+                    </td>
+                    <td>{item.role}</td>
+                    <td>
+                      {dayJSFormatter(item.createdAt, "DD-MMM-YYYY, h:mma")}
+                    </td>
+                    <td>
+                      <button
+                        className={styles.viewButton}
+                        onClick={() => {
+                          setSelectedUser(item);
+                          setIsUpdateUserOpen(true);
+                        }}
                       >
-                        <SuccessCard
-                          message={successMessage}
-                          onClose={() => setSuccessMessage("")}
-                        />
+                        Update
+                      </button>
+                      {/* Update User Modal */}
+
+                      {/* Loader Modal */}
+                      <Modal
+                        isOpen={isLoading}
+                        onClose={() => setIsLoading(false)}
+                      >
+                        <div className={styles.loaderContainer}>
+                          <div className={styles.loader}></div>
+                          <p>Processing...</p>
+                        </div>
                       </Modal>
-                    )}
-                  </td>
-                </tr>
-              ))}
+
+                      {/* Success Modal (Only appears after update modal closes) */}
+                      {successMessage && (
+                        <Modal
+                          isOpen={!!successMessage}
+                          onClose={() => setSuccessMessage("")}
+                        >
+                          <SuccessCard
+                            message={successMessage}
+                            onClose={() => setSuccessMessage("")}
+                          />
+                        </Modal>
+                      )}
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
+
+          <Modal
+            isOpen={isUpdateUserOpen}
+            onClose={() => setIsUpdateUserOpen(false)}
+          >
+            <UpdateUser
+              onClose={() => setIsUpdateUserOpen(false)}
+              onDeactivate={handleOnDeleteClick}
+              onUpdate={handleUpdate}
+              onSuspendClick={handleOnSuspendClick}
+            />
+          </Modal>
+          <ActionPromptModal
+            isOpen={isDeleteConfirmOpen}
+            onAccept={handleUserDelete}
+            onClose={() => setIsDeleteConfirmOpen(false)}
+            title={`You are about deleting user with name ${selectedUser?.first_name}, Are you sure ?`}
+          />
+          <ActionPromptModal
+            isOpen={isSuspendConfirmOpen}
+            onAccept={handleUserSuspendOrUnsuspend}
+            onClose={() => setIsSuspendConfirmOpen(false)}
+            title={`You are about to ${selectedUser?.isActive ? "suspend" : "unsuspend"} user with name ${selectedUser?.first_name}, Are you sure ?`}
+          />
           <div className={styles.paginationWrapper}>
             <span className={styles.paginationText}>
               Showing 1-5 of 30 total entries

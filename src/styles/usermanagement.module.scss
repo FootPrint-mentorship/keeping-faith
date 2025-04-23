@@ -97,12 +97,14 @@
   .nameCell {
     display: flex;
     align-items: center;
+    width: '100%';
   }
 
   .nameWrapper {
     display: flex;
     align-items: center;
     gap: 8px; /* Adjust spacing between icon and text */
+    width: '100%';
   }
 
   .person {

@@ -4,6 +4,8 @@ import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import styles from "@/styles/profile.module.scss";
 import { useAuthContext } from "@/contexts/AuthContext";
+import { useAuthStore } from "@/stores/auth.store";
+import { appToast } from "@/utils/appToast";
 
 const Profile: React.FC = () => {
   const { profile, fetchProfile, updateProfile } = useAuthContext();
@@ -16,17 +18,18 @@ const Profile: React.FC = () => {
   });
   const [isUpdating, setIsUpdating] = useState(false);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
-
+  const { logout } = useAuthStore();
+  const { logout: contextLogout } = useAuthContext();
   // Only fetch profile once on component mount
   useEffect(() => {
-    console.log('Fetching profile...');
+    console.log("Fetching profile...");
     fetchProfile();
   }, []); // Remove fetchProfile from dependencies
 
   // Only set editable fields when profile changes AND we're not in edit mode
   useEffect(() => {
     if (profile && !editMode) {
-      console.log('Setting initial profile data:', profile);
+      console.log("Setting initial profile data:", profile);
       setEditableFields({
         username: profile.username || "",
         address: profile.address || "",
@@ -37,19 +40,19 @@ const Profile: React.FC = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    console.log('Input changing:', { name, value, editMode });
-    setEditableFields(prev => {
+    console.log("Input changing:", { name, value, editMode });
+    setEditableFields((prev) => {
       const newFields = {
         ...prev,
-        [name]: value
+        [name]: value,
       };
-      console.log('New editable fields:', newFields);
+      console.log("New editable fields:", newFields);
       return newFields;
     });
   };
 
   const handleImageClick = () => {
-    console.log('Image clicked, editMode:', editMode);
+    console.log("Image clicked, editMode:", editMode);
     if (editMode) {
       fileInputRef.current?.click();
     }
@@ -57,18 +60,18 @@ const Profile: React.FC = () => {
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      console.log('New image selected');
+      console.log("New image selected");
       setSelectedImage(e.target.files[0]);
     }
   };
 
   const handleUpdate = () => {
-    console.log('Update button clicked, enabling edit mode');
+    console.log("Update button clicked, enabling edit mode");
     setEditMode(true);
   };
 
   const handleCancel = () => {
-    console.log('Canceling edits');
+    console.log("Canceling edits");
     setEditMode(false);
     // Reset fields to original profile data
     if (profile) {
@@ -83,34 +86,40 @@ const Profile: React.FC = () => {
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Saving profile changes...');
-    console.log('Current editable fields:', editableFields);
-    console.log('Selected image:', selectedImage);
-    
+    console.log("Saving profile changes...");
+    console.log("Current editable fields:", editableFields);
+    console.log("Selected image:", selectedImage);
+
     try {
       setIsUpdating(true);
       const updateFormData = new FormData();
-      
-      updateFormData.append('username', editableFields.username);
-      updateFormData.append('gender', editableFields.gender);
-      updateFormData.append('address', editableFields.address);
-      
+
+      updateFormData.append("username", editableFields.username);
+      updateFormData.append("gender", editableFields.gender);
+      updateFormData.append("address", editableFields.address);
+
       if (selectedImage) {
-        updateFormData.append('profile_picture', selectedImage);
+        updateFormData.append("profile_picture", selectedImage);
       }
 
-      console.log('Sending update to API...');
+      console.log("Sending update to API...");
       await updateProfile(updateFormData);
-      console.log('Update successful');
+      console.log("Update successful");
       setEditMode(false);
       setSelectedImage(null);
       // Fetch fresh profile data after successful update
       await fetchProfile();
     } catch (error) {
-      console.error('Error updating profile:', error);
+      console.error("Error updating profile:", error);
     } finally {
       setIsUpdating(false);
     }
+  };
+
+  const handleLogout = () => {
+    logout?.();
+    contextLogout?.();
+    appToast.Success("Logged out successfully");
   };
 
   return (
@@ -122,27 +131,31 @@ const Profile: React.FC = () => {
             <span className={styles.label}>Profile Picture</span>
             <div className={styles.pictureContainer}>
               <Image
-                src={selectedImage ? URL.createObjectURL(selectedImage) : (profile?.profile_picture || "/images/profileImage.jpeg")}
+                src={
+                  selectedImage
+                    ? URL.createObjectURL(selectedImage)
+                    : profile?.profile_picture || "/images/profileImage.jpeg"
+                }
                 alt="Profile"
                 width={120}
                 height={120}
                 className={styles.profileImage}
                 onClick={handleImageClick}
-                style={{ cursor: editMode ? 'pointer' : 'default' }}
+                style={{ cursor: editMode ? "pointer" : "default" }}
               />
               <input
                 type="file"
                 ref={fileInputRef}
                 onChange={handleImageChange}
                 accept="image/*"
-                style={{ display: 'none' }}
+                style={{ display: "none" }}
               />
-              <button 
-                type="button" 
-                className={styles.updateButton} 
+              <button
+                type="button"
+                className={styles.updateButton}
                 onClick={editMode ? handleCancel : handleUpdate}
               >
-                {editMode ? 'Cancel' : 'Update'}
+                {editMode ? "Cancel" : "Update"}
               </button>
             </div>
           </div>
@@ -164,7 +177,7 @@ const Profile: React.FC = () => {
                     value={editableFields.username}
                     onChange={handleInputChange}
                     readOnly={!editMode}
-                    style={{ backgroundColor: editMode ? 'white' : '#f5f5f5' }}
+                    style={{ backgroundColor: editMode ? "white" : "#f5f5f5" }}
                   />
                   <input
                     id="username"
@@ -196,13 +209,17 @@ const Profile: React.FC = () => {
                     value={editableFields.address}
                     onChange={handleInputChange}
                     readOnly={!editMode}
-                    style={{ backgroundColor: editMode ? 'white' : '#f5f5f5' }}
+                    style={{ backgroundColor: editMode ? "white" : "#f5f5f5" }}
                   />
                   <input
                     id="dateJoined"
                     type="text"
                     name="dateJoined"
-                    value={profile ? new Date(profile.createdAt).toLocaleDateString() : ""}
+                    value={
+                      profile
+                        ? new Date(profile.createdAt).toLocaleDateString()
+                        : ""
+                    }
                     disabled
                   />
                   <input
@@ -212,7 +229,7 @@ const Profile: React.FC = () => {
                     value={editableFields.gender}
                     onChange={handleInputChange}
                     readOnly={!editMode}
-                    style={{ backgroundColor: editMode ? 'white' : '#f5f5f5' }}
+                    style={{ backgroundColor: editMode ? "white" : "#f5f5f5" }}
                   />
                 </div>
               </div>
@@ -220,15 +237,21 @@ const Profile: React.FC = () => {
           </div>
         </div>
         {editMode && (
-          <button 
+          <button
             type="submit"
-            className={styles.saveButton} 
+            className={styles.saveButton}
             disabled={isUpdating}
           >
-            {isUpdating ? 'Saving...' : 'Save'}
+            {isUpdating ? "Saving..." : "Save"}
           </button>
         )}
       </form>
+
+      <div className="logout-container">
+        <button type="button" onClick={handleLogout} className="logout-button">
+          Logout
+        </button>
+      </div>
     </div>
   );
 };

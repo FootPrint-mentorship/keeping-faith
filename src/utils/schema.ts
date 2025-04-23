@@ -12,6 +12,8 @@ export const joiSchemas = {
 
   password: Joi.string().min(8).max(255).required(),
 
+  phone: Joi.string().min(11).max(14).required(),
+
   strictPassword: Joi.string()
     .min(8)
     .max(255)

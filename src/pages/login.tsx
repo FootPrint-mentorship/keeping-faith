@@ -1,5 +1,6 @@
 import { Login } from "@/api/auth.api";
 import { apiConstants } from "@/api/misc/constants.api";
+import { useAuthContext } from "@/contexts/AuthContext";
 import routes from "@/navigation/routes";
 import { useAuthStore } from "@/stores/auth.store";
 import styles from "@/styles/Login.module.scss";
@@ -27,6 +28,7 @@ export default function LoginPage() {
   const queryClient = useQueryClient();
   const { setLoginResponse } = useAuthStore();
   const router = useRouter();
+  const { login } = useAuthContext();
 
   // const { login } = useAuth();
   // const { isPending, isError, error, isSuccess } = login as UseMutationResult<
@@ -52,7 +54,10 @@ export default function LoginPage() {
       setLoginResponse(response?.data);
       appToast.Success(response?.data?.message ?? "Login successfully.");
       queryClient.invalidateQueries();
-
+      login({
+        access: response?.data?.access,
+        keepSignedIn: formData?.keepSignedIn,
+      });
       if (
         response?.data?.user?.role === apiConstants.ACCOUNT_STATUS.SUPER_ADMIN
       ) {
