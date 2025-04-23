@@ -1,20 +1,29 @@
 import { useState } from "react";
-import styles from "../../styles/Updateform.module.scss";
 import { IoCloseSharp } from "react-icons/io5";
-import PreviewCard from "./Previewcard";
+import styles from "../../styles/Updateform.module.scss";
 
 interface UpdateFormProps {
   onClose: () => void;
+  onDelete?: () => void;
+  onUpdate?: (data: UpdateForm) => void;
+  defaultData: UpdateForm;
 }
 
-const UpdateForm: React.FC<UpdateFormProps> = ({ onClose }) => {
-  const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    link: "",
-    category: "",
-    subCategory: "",
-  });
+interface UpdateForm {
+  title: string;
+  description: string;
+  link: string;
+  category: string;
+  subCategory: string;
+}
+
+const UpdateForm: React.FC<UpdateFormProps> = ({
+  onClose,
+  onDelete,
+  onUpdate,
+  defaultData,
+}) => {
+  const [formData, setFormData] = useState<UpdateForm>(defaultData);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -32,14 +41,22 @@ const UpdateForm: React.FC<UpdateFormProps> = ({ onClose }) => {
     console.log(formData);
     onClose(); // Close modal after submission
   };
-  const PreviewImage = "/images/placeholder.png";
+  // const PreviewImage = "/images/placeholder.png";
 
   return (
-    <div className={styles.uploadContainer}>
+    <div
+      style={{
+        height: "80dvh",
+        overflowY: "scroll",
+        paddingTop: 100,
+        paddingBottom: 50,
+      }}
+      className={styles.uploadContainer}
+    >
       <form className={styles.uploadForm} onSubmit={handleSubmit}>
         <div className={styles.formname}>
           <h2 className={styles.title}>Update Content</h2>
-          <span>
+          <span onClick={onClose}>
             <IoCloseSharp className={styles.icon} />
           </span>
         </div>
@@ -111,27 +128,33 @@ const UpdateForm: React.FC<UpdateFormProps> = ({ onClose }) => {
           <option value="">Select</option>
           <option value="">Sub Category</option>
         </select>
-        <PreviewCard
+        {/* <PreviewCard
           image={PreviewImage}
-          title={"Praise & Worship"}
+          title={"Praise & Worship S"}
           description={
             "Praise and worship viseo by Odunsi, this features powerfull praise to the lord"
           }
           duration={"1hr 30s"}
           link={""}
-        />
+        /> */}
 
         <div className={styles.btn}>
           {/* ......delete btn........ */}
           <button
             className={styles.deletebutton}
             type="submit"
-            onClick={onClose}
+            // onClick={onClose}
+            onClick={onDelete || onClose}
           >
             Delete
           </button>
           {/* ............. Upload btn ......... */}
-          <button className={styles.button} type="submit" onClick={onClose}>
+          <button
+            className={styles.button}
+            type="submit"
+            onClick={() => onUpdate}
+            // onClick={onClose}
+          >
             Update
           </button>
         </div>

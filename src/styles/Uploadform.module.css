@@ -90,3 +90,25 @@
 .button:hover {
   background: #e55b00;
 }
+
+.btn {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.deletebutton {
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  width: fit-content;
+  transition: 0.5s;
+  background-color: red;
+}
+.deletebutton:hover {
+  background-color: rgb(224, 47, 47);
+}

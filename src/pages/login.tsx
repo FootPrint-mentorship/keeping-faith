@@ -1,8 +1,15 @@
-import { useState, FormEvent, useEffect } from "react";
-import Link from "next/link";
+import { Login } from "@/api/auth.api";
+import { apiConstants } from "@/api/misc/constants.api";
+import { useAuthContext } from "@/contexts/AuthContext";
+import routes from "@/navigation/routes";
+import { useAuthStore } from "@/stores/auth.store";
 import styles from "@/styles/Login.module.scss";
-import { useAuth } from "@/hooks/useAuth";
-import type { UseMutationResult } from "@tanstack/react-query";
+import { appToast } from "@/utils/appToast";
+import { handleApiErrors } from "@/utils/handleErrors";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { FormEvent, useState } from "react";
 
 interface LoginFormData {
   email: string;
@@ -10,53 +17,80 @@ interface LoginFormData {
   keepSignedIn: boolean;
 }
 
-export default function Login() {
-  const [errorMessage, setErrorMessage] = useState("");
+export default function LoginPage() {
+  // const [errorMessage, setErrorMessage] = useState("");
   const [formData, setFormData] = useState<LoginFormData>({
     email: "",
     password: "",
     keepSignedIn: false,
   });
+  const loginAPI = useMutation({ mutationFn: Login });
+  const queryClient = useQueryClient();
+  const { setLoginResponse } = useAuthStore();
+  const router = useRouter();
+  const { login } = useAuthContext();
 
-  const { login } = useAuth();
-  const { isPending, isError, error, isSuccess } = login as UseMutationResult<
-    any,
-    Error,
-    LoginFormData
-  >;
+  // const { login } = useAuth();
+  // const { isPending, isError, error, isSuccess } = login as UseMutationResult<
+  //   any,
+  //   Error,
+  //   LoginFormData
+  // >;
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     if (!formData.email || !formData.password) {
-      setErrorMessage("Email and password are required");
-      return;
+      return appToast.Info("Email and password are required");
     }
 
-    try {
-      login.mutate(formData);
-    } catch (error: any) {
-      console.error('Login submission error:', error);
-      setErrorMessage(error.message || "An error occurred during login");
-    }
+    const data = {
+      email: formData?.email?.toLowerCase()?.trim(),
+      password: formData?.password?.trim(),
+    };
+    const response = await loginAPI.mutateAsync(data);
+
+    if (response?.ok && response?.data) {
+      setLoginResponse(response?.data);
+      appToast.Success(response?.data?.message ?? "Login successfully.");
+      queryClient.invalidateQueries();
+      login({
+        access: response?.data?.access,
+        keepSignedIn: formData?.keepSignedIn,
+      });
+      if (
+        response?.data?.user?.role === apiConstants.ACCOUNT_STATUS.SUPER_ADMIN
+      ) {
+        router.push(routes.ADMIN_DASHBOARD);
+      } else {
+        router.push(routes.USER_DASHBOARD);
+      }
+    } else handleApiErrors(response);
+    // try {
+    //   login.mutate(formData);
+    // } catch (error: any) {
+    //   console.error('Login submission error:', error);
+    //   setErrorMessage(error.message || "An error occurred during login");
+    // }
   };
 
-  useEffect(() => {
-    if (isError) {
-      // @ts-ignore
-      const errorMsg = error?.response?.data?.message || error?.message || "An error occurred";
-      setErrorMessage(errorMsg);
-      setTimeout(() => {
-        setErrorMessage("");
-      }, 5000);
-    }
-  }, [isError, error]);
+  // useEffect(() => {
+  //   if (isError) {
+  //     // @ts-ignore
+  //     const errorMsg = error?.response?.data?.message || error?.message || "An error occurred";
+  //     setErrorMessage(errorMsg);
+  //     setTimeout(() => {
+  //       setErrorMessage("");
+  //     }, 5000);
+  //   }
+  // }, [isError, error]);
+
+  const isPending = loginAPI?.isPending;
 
   return (
     <div className={styles.container}>
       <div className={styles.flexContainer}>
         <div className={styles.welcomeText}>
-
           <h1>Welcome to Keeping Faith</h1>
         </div>
 
@@ -74,14 +108,14 @@ export default function Login() {
             <h1 className={styles.title}>Login</h1>
 
             <form onSubmit={handleSubmit} className={styles.form}>
-              {errorMessage != "" && (
+              {/* {errorMessage != "" && (
                 <div className={styles.error}>{errorMessage}</div>
-              )}
-              {isSuccess && (
+              )} */}
+              {/* {isSuccess && (
                 <div className={styles.success}>
                   Login successful! Redirecting...
                 </div>
-              )}
+              )} */}
 
               <div className={styles.inputGroup}>
                 <span>Email Address</span>
@@ -95,7 +129,6 @@ export default function Login() {
                   required
                 />
               </div>
-
 
               <div className={styles.inputGroup}>
                 <span>Password</span>
@@ -114,7 +147,6 @@ export default function Login() {
                 <label className={styles.checkbox}>
                   <input
                     type="checkbox"
-
                     checked={formData.keepSignedIn}
                     onChange={(e) =>
                       setFormData({
@@ -145,4 +177,3 @@ export default function Login() {
     </div>
   );
 }
-

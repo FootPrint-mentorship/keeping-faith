@@ -12,6 +12,8 @@
   width: 600px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   position: relative;
+   max-height: 80vh;
+   overflow-y: auto;
 
   .formname {
     display: flex;
@@ -48,7 +50,7 @@
         font-size: 0.9rem;
         margin-top: 5px;
         margin-bottom: 10px;
-        padding-bottom: 0.75rem;
+        // padding-bottom: 0.75rem;
       }
       input,
       select {
@@ -59,7 +61,7 @@
         font-size: 0.9rem;
         // margin-right: 30px;
         margin-top: 5px;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
 
         &::placeholder {
           color: #999;
