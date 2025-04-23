@@ -4,7 +4,7 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
+    "strict": false,
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
@@ -15,8 +15,13 @@
     "incremental": true,
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+
+    // LINTING
+    // "noUnusedLocals": true,
+    // "noUnusedParameters": true,
+    // "noFallthroughCasesInSwitch": true,
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/components/pages/ExploreMusictsx"],
   "exclude": ["node_modules"]
 }

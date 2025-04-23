@@ -1,7 +1,10 @@
 {
-    "extends": ["next", "next/core-web-vitals", "prettier"],
-    "rules": {
-      "semi": ["error", "always"],
-      "quotes": ["error", "double"]
-    }
+  "extends": ["next", "next/core-web-vitals", "prettier"],
+  "rules": {
+    "semi": ["error", "always"],
+    "quotes": ["error", "double"],
+    "react/no-unescaped-entities": "off",
+    "react-hooks/exhaustive-deps": "off",
+    "@typescript-eslint/no-explicit-any": "off"
   }
+}

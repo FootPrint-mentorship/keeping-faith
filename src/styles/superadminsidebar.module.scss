@@ -5,9 +5,10 @@
   color: #333;
   display: flex;
   flex-direction: column;
-  padding: 20px;
   transition: width 0.3s ease-in-out;
   overflow: hidden;
+  padding-top: 40px;
+
 }
 
 .open {
@@ -15,7 +16,7 @@
 }
 
 .menuButton {
-  background-color: #f3bba7;
+  background-color: #fcded4;
   padding: 3px 5px;
   border-radius: 5px;
   border: 1px solid #f7ac91;
@@ -26,6 +27,7 @@
   left: 10px;
   cursor: pointer;
   margin-left: 20px;
+  margin-top: 85px;
 }
 
 .logo {
@@ -50,11 +52,11 @@
     text-decoration: none;
     color: #333;
     padding: 10px;
-    border-radius: 5px;
+    // border-radius: 5px;
     font-size: 18px;
 
     &:hover {
-      background-color: #f5b096;
+      background-color: #fcded4;
     }
   }
 }

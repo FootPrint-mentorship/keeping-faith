@@ -7,3 +7,66 @@ body {
   margin: 0;
   padding: 0;
 }
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.rounded-full {
+  border-radius: 9999px; /* Or a very large value */
+}
+
+.bg-gray-300 {
+  background-color: #D1D5DB; /* Tailwind's gray-300 color */
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: .5;
+  }
+}
+
+
+
+.logout-button {
+  // margin-left: auto;
+  // margin-right: auto;
+  display: flex;
+  width: 80%;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem; /* gap-2 = 0.5rem */
+  border-radius: 0.5rem; /* rounded-lg */
+  background-color: #f87171; /* changed from bg-appBlue100 to red-400 */
+  padding: 0.75rem; /* p-3 = 0.75rem */
+  font-size: 0.875rem; /* text-sm */
+  font-weight: 500; /* font-medium */
+  color: white;
+  transition: all 0.3s ease;
+  outline: none;
+  cursor: pointer;
+  max-width: max-content;
+}
+
+.logout-button:hover {
+  transform: scale(1.05);
+}
+
+.logout-button:active {
+  transform: scale(0.95);
+}
+
+.logout-button:disabled {
+  cursor: not-allowed;
+  background-color: #dc2626; /* darker red to replace appBlue600 */
+}
+
+.logout-container{
+display: flex;
+align-items: start;
+padding-bottom: 10px;
+justify-content: start;
+padding-left: 20px;
+}

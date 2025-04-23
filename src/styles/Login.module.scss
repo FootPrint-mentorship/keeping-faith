@@ -1,0 +1,236 @@
+.container {
+  min-height: 93vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/images/signupimage.jpeg');
+  background-size: cover;
+  background-position: center;
+
+  @media screen and (max-width: 768px) {
+    padding: 0;
+    align-items: flex-start;
+    min-height: 100vh;
+    height: auto;
+    background: white;
+  }
+}
+
+.flexContainer {
+  display: flex;
+  width: 100%;
+  max-width: 1200;
+  
+  margin: 0 50px;
+  justify-content: space-between;
+  align-items: center;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    margin: 0;
+    padding: 1rem;
+  }
+}
+
+.formCard {
+  flex: 1;
+  display: flex;
+  background: white;
+  border-radius: 20px;
+  max-width: 800px;
+  width: 80%;
+  flex-direction: column;
+  overflow: hidden;
+  height: fit-content;
+  padding: 3rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  @media screen and (max-width: 768px) {
+    max-width: none;
+    width: 100%;
+    margin: 0;
+    padding: 1rem;
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
+  }
+}
+
+.welcomeText {
+  align-items: center;
+  justify-content: right;
+  color: #fff;
+  font-size: x-large;
+  height: fit-content;
+
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
+}
+
+.header {
+  padding: 0.5rem;
+  text-align: right;
+  margin-bottom: 5rem;
+  border-bottom: 1px solid #eee;
+
+  @media screen and (max-width: 768px) {
+    padding: 0.5rem;
+    margin-bottom: 0;
+    border-bottom: none;
+  }
+}
+
+.mobileTitle {
+  display: none;
+  margin: 0;
+  padding: 1rem 0;
+  text-align: center;
+  font-size: 1.75rem;
+  color: #333;
+  border-bottom: 1px solid #eee;
+
+  @media screen and (max-width: 768px) {
+    display: block;
+    font-size: 1.5rem;
+    padding: 0.75rem 0;
+  }
+}
+
+.link {
+  color: #FF5722;
+  text-decoration: none;
+  font-weight: 500;
+  
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.formContent {
+  padding: 2rem 0;
+
+  @media screen and (max-width: 768px) {
+    padding: 0.5rem 0;
+  }
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #333;
+
+  @media screen and (max-width: 768px) {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  span {
+    font-size: 0.9rem;
+    padding-bottom: 0.75rem;
+  }
+  input {
+    width: 96%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    font-size: 0.9rem;
+
+    &::placeholder {
+      color: #999;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: #FF5722;
+    }
+  }
+}
+
+.termsGroup {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: row;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: #666;
+
+  input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.error {
+  color: #ff3333;
+  background-color: #fff5f5;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.success {
+  color: #22c55e;
+  background-color: #f0fdf4;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.submitButton {
+  background-color: #FF5722;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 1rem;
+  width: 100%;
+  transition: background-color 0.2s ease;
+
+  @media screen and (max-width: 768px) {
+    margin-top: 1.5rem;
+    font-size: 1rem;
+    padding: 0.85rem;
+  }
+
+  &:hover {
+    background-color: darken(#FF5722, 5%);
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+}
