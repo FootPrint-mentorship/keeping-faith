@@ -3,7 +3,7 @@ import { create } from "apisauce";
 
 // import { appToast } from "@/utils/appToast";
 
-export const DEFAULT_API_DATA_SIZE: Readonly<number> = 50;
+export const DEFAULT_API_DATA_SIZE: Readonly<number> = 100;
 
 const baseApi = create({
   // TODO  PUT THIS IN AN ENV

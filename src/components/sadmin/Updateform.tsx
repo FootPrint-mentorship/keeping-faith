@@ -1,26 +1,29 @@
 import { useState } from "react";
-import styles from "../../styles/Updateform.module.scss";
 import { IoCloseSharp } from "react-icons/io5";
-import PreviewCard from "./Previewcard";
+import styles from "../../styles/Updateform.module.scss";
 
 interface UpdateFormProps {
   onClose: () => void;
   onDelete?: () => void;
-  onUpdate?: () => void;
+  onUpdate?: (data: UpdateForm) => void;
+  defaultData: UpdateForm;
+}
+
+interface UpdateForm {
+  title: string;
+  description: string;
+  link: string;
+  category: string;
+  subCategory: string;
 }
 
 const UpdateForm: React.FC<UpdateFormProps> = ({
   onClose,
   onDelete,
   onUpdate,
+  defaultData,
 }) => {
-  const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    link: "",
-    category: "",
-    subCategory: "",
-  });
+  const [formData, setFormData] = useState<UpdateForm>(defaultData);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -38,7 +41,7 @@ const UpdateForm: React.FC<UpdateFormProps> = ({
     console.log(formData);
     onClose(); // Close modal after submission
   };
-  const PreviewImage = "/images/placeholder.png";
+  // const PreviewImage = "/images/placeholder.png";
 
   return (
     <div
@@ -46,13 +49,14 @@ const UpdateForm: React.FC<UpdateFormProps> = ({
         height: "80dvh",
         overflowY: "scroll",
         paddingTop: 100,
+        paddingBottom: 50,
       }}
       className={styles.uploadContainer}
     >
       <form className={styles.uploadForm} onSubmit={handleSubmit}>
         <div className={styles.formname}>
           <h2 className={styles.title}>Update Content</h2>
-          <span>
+          <span onClick={onClose}>
             <IoCloseSharp className={styles.icon} />
           </span>
         </div>
@@ -124,15 +128,15 @@ const UpdateForm: React.FC<UpdateFormProps> = ({
           <option value="">Select</option>
           <option value="">Sub Category</option>
         </select>
-        <PreviewCard
+        {/* <PreviewCard
           image={PreviewImage}
-          title={"Praise & Worship"}
+          title={"Praise & Worship S"}
           description={
             "Praise and worship viseo by Odunsi, this features powerfull praise to the lord"
           }
           duration={"1hr 30s"}
           link={""}
-        />
+        /> */}
 
         <div className={styles.btn}>
           {/* ......delete btn........ */}
@@ -148,7 +152,7 @@ const UpdateForm: React.FC<UpdateFormProps> = ({
           <button
             className={styles.button}
             type="submit"
-            onClick={onUpdate}
+            onClick={() => onUpdate}
             // onClick={onClose}
           >
             Update

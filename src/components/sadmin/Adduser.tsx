@@ -1,26 +1,63 @@
-import { useState } from "react";
-import styles from "../../styles/Adduser.module.scss";
+import { UserRole } from "@/types/api/auth.types";
+import { AddUserReq } from "@/types/api/superadmin.types";
+import { joiSchemas } from "@/utils/schema";
+import { joiResolver } from "@hookform/resolvers/joi";
+import Joi from "joi";
+import { useForm } from "react-hook-form";
 import { IoCloseSharp } from "react-icons/io5";
+import styles from "../../styles/Adduser.module.scss";
+import ErrorMessage from "../common/ErrorMessage";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { addUser } from "@/api/superadmin.api";
+import { handleApiErrors } from "@/utils/handleErrors";
+import { appToast } from "@/utils/appToast";
+import queryKeys from "@/api/misc/queryKeys";
+import { USER_ROLES_LIST } from "@/api/misc/constants.api";
 
 interface AddUserProps {
   onClose: () => void;
 }
 
+const schema = Joi.object<AddUserReq>({
+  email: joiSchemas.email,
+  first_name: joiSchemas.name.label("First name"),
+  last_name: joiSchemas.name.label("Last name"),
+  password: joiSchemas.strictPassword,
+  phone_number: joiSchemas.phone.label("Phone number"),
+  role: Joi.string<UserRole>().required(),
+});
+
 // const AddUser = () => {
 const AddUser: React.FC<AddUserProps> = ({ onClose }) => {
-  const [role, setRole] = useState("");
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    phoneNumber: "",
-    email: "",
-    password: "",
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<AddUserReq>({
+    resolver: joiResolver(schema),
   });
+  const queryClient = useQueryClient();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Form Data:", formData, "Role:", role);
-  };
+  const addUserAPI = useMutation({ mutationFn: addUser });
+  const isLoading = addUserAPI?.isPending;
+
+  const onSubmit = handleSubmit(async (data) => {
+    const formattedData: AddUserReq = {
+      email: data?.email?.toLowerCase()?.trim(),
+      first_name: data?.first_name?.trim(),
+      last_name: data?.last_name?.trim(),
+      password: data?.password?.trim(),
+      phone_number: data?.phone_number?.trim(),
+      role: data?.role,
+    };
+
+    const response = await addUserAPI?.mutateAsync(formattedData);
+    if (response.ok) {
+      appToast.Success(response?.data?.message ?? "User created successfully.");
+      onClose?.();
+      queryClient.resetQueries({ queryKey: [queryKeys.USERS.ALL] });
+    } else handleApiErrors(response);
+  });
 
   return (
     <div className={styles.container}>
@@ -32,81 +69,95 @@ const AddUser: React.FC<AddUserProps> = ({ onClose }) => {
           </span>
         </div>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={onSubmit}>
           {/* ...........First-name Last-name ....... */}
           <div className={styles.nameFields}>
-            <div className={styles.inputGroup}>
-              <span>First Name</span>
-              <input
-                type="text"
-                placeholder="Enter your first name"
-                value={formData.firstName}
-                onChange={(e) =>
-                  setFormData({ ...formData, firstName: e.target.value })
-                }
-              />
+            <div>
+              <div className={styles.inputGroup}>
+                <span>First Name</span>
+                <input
+                  type="text"
+                  {...register("first_name")}
+                  disabled={isLoading}
+                  placeholder="Enter your first name"
+                />
+              </div>
+              <ErrorMessage message={errors?.first_name?.message ?? ""} />
             </div>
-            <div className={styles.inputGroup}>
-              <span>Last Name</span>
-              <input
-                type="text"
-                placeholder="Enter your last name"
-                value={formData.lastName}
-                onChange={(e) =>
-                  setFormData({ ...formData, lastName: e.target.value })
-                }
-              />
+
+            <div>
+              <div className={styles.inputGroup}>
+                <span>Last Name</span>
+                <input
+                  type="text"
+                  {...register("last_name")}
+                  placeholder="Enter your last name"
+                  disabled={isLoading}
+                />
+              </div>
+              <ErrorMessage message={errors?.last_name?.message ?? ""} />
             </div>
           </div>
 
           {/* ..... phone number ....... */}
-          <div className={styles.inputGroup}>
-            <span>Phone Number</span>
-            <input
-              type="tel"
-              placeholder="Enter your phone number"
-              value={formData.phoneNumber}
-              onChange={(e) =>
-                setFormData({ ...formData, phoneNumber: e.target.value })
-              }
-            />
+          <div>
+            <div className={styles.inputGroup}>
+              <span>Phone Number</span>
+              <input
+                type="tel"
+                {...register("phone_number")}
+                placeholder="Enter your phone number"
+                disabled={isLoading}
+              />
+            </div>
+            <ErrorMessage message={errors?.phone_number?.message ?? ""} />
           </div>
+
           {/* ...... Email ... */}
-          <div className={styles.inputGroup}>
-            <span>Email Address</span>
-            <input
-              type="email"
-              placeholder="Enter your email address"
-              value={formData.email}
-              onChange={(e) =>
-                setFormData({ ...formData, email: e.target.value })
-              }
-            />
+          <div>
+            <div className={styles.inputGroup}>
+              <span>Email Address</span>
+              <input
+                type="email"
+                {...register("email")}
+                placeholder="Enter your email address"
+                disabled={isLoading}
+              />
+            </div>
+            <ErrorMessage message={errors?.email?.message ?? ""} />
           </div>
+
           {/* .... password .... */}
-          <div className={styles.inputGroup}>
-            <span>Password</span>
-            <input
-              type="password"
-              placeholder="Enter your password"
-              value={formData.password}
-              onChange={(e) =>
-                setFormData({ ...formData, password: e.target.value })
-              }
-            />
+          <div>
+            <div className={styles.inputGroup}>
+              <span>Password</span>
+              <input
+                type="password"
+                placeholder="Enter your password"
+                {...register("password")}
+                disabled={isLoading}
+              />
+            </div>
+            <ErrorMessage message={errors?.password?.message ?? ""} />
           </div>
+
           {/* .... select role .... */}
-          <div className={styles.inputGroup}>
-            <span>Select Role</span>
-            <select
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-              className={styles.selectoption}
-            >
-              <option value="">User</option>
-              <option value="admin">Admin</option>
-              <option value="editor">Super Admin</option>
-            </select>
+          <div>
+            <div className={styles.inputGroup}>
+              <span>Select Role</span>
+              <select
+                {...register("role")}
+                disabled={isLoading}
+                className={styles.selectoption}
+              >
+                {USER_ROLES_LIST?.map(({ title, value }, key) => (
+                  <option key={key} value={value}>
+                    {title}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <ErrorMessage message={errors?.role?.message ?? ""} />
           </div>
 
           {/* <label>Select Role</label>
@@ -122,10 +173,10 @@ const AddUser: React.FC<AddUserProps> = ({ onClose }) => {
           <span className={styles.btn}>
             <button
               type="submit"
+              disabled={isLoading}
               className={styles.addUserBtn}
-              onClick={onClose}
             >
-              Add User
+              {isLoading ? "Loading..." : "Add User"}
             </button>
           </span>
         </form>

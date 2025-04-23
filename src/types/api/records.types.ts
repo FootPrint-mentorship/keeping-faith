@@ -12,7 +12,8 @@ interface Record {
   description: string;
   link: string;
   views: number;
-  category: "videos" | "music" | "books";
+  // category: "videos" | "music" | "books";
+category: string;
   subCategory: string;
   status: "approved" | "pending" | "rejected";
   requestedBy: string;

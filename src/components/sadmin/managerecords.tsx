@@ -1,13 +1,19 @@
 import queryKeys from "@/api/misc/queryKeys";
-import { GetRecords, PostRecord } from "@/api/records.api";
+import {
+  CreateContent,
+  GetAllRecordRequests,
+  UpdateRecord,
+} from "@/api/records.api";
 import Modal from "@/components/common/Modal";
 import SuccessCard from "@/components/sadmin/Successcard";
 import UpdateForm from "@/components/sadmin/Updateform";
 import UploadForm, { UploadFormData } from "@/components/sadmin/uploadForm";
+import { GetSingleRecordRes } from "@/types/api/records.types";
 import { appToast } from "@/utils/appToast";
 import { handleApiErrors } from "@/utils/handleErrors";
 import { dayJSFormatter } from "@/utils/time";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { ApiResponse } from "apisauce";
 import { useState } from "react";
 import { CiFilter } from "react-icons/ci";
 import { FaPlus } from "react-icons/fa";
@@ -18,18 +24,19 @@ import AppLoadingSkeleton from "../common/AppLoadingSkeleton";
 import AppSearchInput from "../common/AppSearchInput";
 import DuplicateLoader from "../common/DuplicateLoader";
 import EmptyTableData from "../common/EmptyTableData";
+import { useRecordsStore } from "@/stores/records.store";
 
 export default function ManageRecord() {
   const [search, setSearch] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isUpdateOpen, setIsUpdateOpen] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const PostRecordApi = useMutation({ mutationFn: PostRecord });
+  const CreateContentAPI = useMutation({ mutationFn: CreateContent });
+  const UpdateRecordAPI = useMutation({ mutationFn: UpdateRecord });
   const queryClient = useQueryClient();
+  const { setUploadRecordForm, uploadRecordForm } = useRecordsStore();
 
   const handleDelete = () => {
-    setIsUpdateOpen(false);
     setIsLoading(true);
 
     setTimeout(() => {
@@ -38,40 +45,42 @@ export default function ManageRecord() {
     }, 1500);
   };
 
-  const handleUpdate = () => {
-    setIsUpdateOpen(false);
-    setIsLoading(true);
-
-    setTimeout(() => {
-      setIsLoading(false);
-      setSuccessMessage("Update successful!");
-    }, 1500);
-  };
-
-  const handleUpload = async (data: UploadFormData) => {
-    setIsLoading(true);
-    const response = await PostRecordApi?.mutateAsync({
+  const handleUpload = async (data: UploadFormData, id?: string) => {
+    const initData = {
       category: data?.category?.trim(),
       description: data?.description?.trim(),
       link: data?.link?.trim(),
       subCategory: data?.subCategory?.trim(),
       title: data?.title?.trim(),
-    });
+    };
+
+    let response: ApiResponse<GetSingleRecordRes, GetSingleRecordRes> | null =
+      null;
+
+    setIsLoading(true);
+    if (id) {
+      response = await UpdateRecordAPI?.mutateAsync({ data: initData, id });
+    } else {
+      response = await CreateContentAPI?.mutateAsync(initData);
+    }
+
     setIsLoading(false);
 
     if (response?.ok) {
       setIsModalOpen(false);
-      appToast.Success("Upload successful!");
-      queryClient.invalidateQueries({ queryKey: [queryKeys.GET_RECORDS] });
+      appToast.Success(`${!!id ? "Edit" : "Upload"} successful!`);
+      queryClient.invalidateQueries({
+        queryKey: [queryKeys.GET_RECORD_REQUESTS],
+      });
     } else {
       handleApiErrors(response);
     }
   };
 
   const { data, isLoading: isDataLoading } = useQuery({
-    queryKey: [queryKeys.GET_RECORDS, search],
+    queryKey: [queryKeys.GET_RECORD_REQUESTS, search],
     queryFn: async () => {
-      const response = await GetRecords({
+      const response = await GetAllRecordRequests({
         category: "",
         subCategory: "",
         search,
@@ -99,7 +108,10 @@ export default function ManageRecord() {
 
           <button
             className={styles.updateButton}
-            onClick={() => setIsModalOpen(true)}
+            onClick={() => {
+              if (uploadRecordForm) setUploadRecordForm(null);
+              setIsModalOpen(true);
+            }}
           >
             <FaPlus /> Upload Content
           </button>
@@ -117,9 +129,9 @@ export default function ManageRecord() {
               <th>
                 Added by <TbCaretUpDownFilled />
               </th>
-              <th>
+              {/* <th>
                 Type <TbCaretUpDownFilled /> <CiFilter />
-              </th>
+              </th> */}
               <th>
                 Status <TbCaretUpDownFilled /> <CiFilter />
               </th>
@@ -168,17 +180,28 @@ export default function ManageRecord() {
                   <td>{item.title}</td>
                   <td>{item.category}</td>
                   <td>{item.requestedBy}</td>
-                  <td></td>
+                  {/* <td></td> */}
                   <td className={styles[item.status.toLowerCase()]}>
                     <GrStatusGoodSmall /> {item.status}
                   </td>
                   <td>
                     {dayJSFormatter(item.createdAt, "DD-MMM-YYYY, h:mma")}
                   </td>
+
                   <td>
                     <button
                       className={styles.viewButton}
-                      onClick={() => setIsUpdateOpen(true)}
+                      onClick={() => {
+                        setUploadRecordForm({
+                          category: item?.category,
+                          description: item.description,
+                          link: item.link,
+                          subCategory: item.subCategory,
+                          title: item.title,
+                          id: item?._id,
+                        });
+                        setIsModalOpen(true);
+                      }}
                     >
                       View
                     </button>
@@ -205,15 +228,29 @@ export default function ManageRecord() {
         </div>
 
         {/* Modals */}
-        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-          <UploadForm onClose={(data) => handleUpload(data)} />
-        </Modal>
 
-        <Modal isOpen={isUpdateOpen} onClose={() => setIsUpdateOpen(false)}>
-          <UpdateForm
-            onClose={() => setIsUpdateOpen(false)}
+        {/* <Modal
+                    isOpen={isUpdateOpen && updateId === item?._id}
+                    onClose={() => setIsUpdateOpen(false)}
+                  >
+                    <UpdateForm
+                      onClose={() => setIsUpdateOpen(false)}
+                      onDelete={handleDelete}
+                      
+                      onUpdate={(data) => handleUpload(data, item?._id)}
+                    />
+                  </Modal> */}
+        <Modal
+          isOpen={isModalOpen}
+          onClose={() => {
+            setIsModalOpen(false);
+            setUploadRecordForm(null);
+          }}
+        >
+          <UploadForm
             onDelete={handleDelete}
-            onUpdate={handleUpdate}
+            onClose={() => setIsModalOpen(false)}
+            onFormSubmit={(data) => handleUpload(data)}
           />
         </Modal>
 
