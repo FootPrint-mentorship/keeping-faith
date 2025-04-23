@@ -1,34 +1,115 @@
 .container {
-  min-height: 80vh;
+  min-height: 96vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
+  
+  padding: 1rem;
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/images/signupimage.jpeg');
   background-size: cover;
   background-position: center;
+
+  @media screen and (max-width: 768px) {
+    padding: 0;
+    align-items: flex-start;
+    min-height: 100vh;
+    height: auto;
+    background: white;
+  }
 }
 
 .flexContainer {
   display: flex;
-  width: 100%;
-  height: 93vh; 
+  width: 120%;
+  // max-width: 1200;
+  margin: 0 50px;
   justify-content: space-between;
-  justify-items: center;
+  
   align-items: center;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    margin: 0;
+    padding: 1rem;
+  }
 }
 
 .formCard {
-  flex: 1; 
+  flex: 1;
   display: flex;
   background: white;
-  border-radius: 70px;
-  max-width: 45vw;
+  border-radius: 20px;
+  max-width: 700px;
+  width: 100%;
   flex-direction: column;
   overflow: hidden;
-  height: fit-content; 
-  padding-right: 66px;
-  padding-left: 46px;
+  height: fit-content;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  @media screen and (max-width: 768px) {
+    max-width: none;
+    width: 100%;
+    margin: 0;
+    padding: 1rem;
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
+  }
+}
+
+.formContent {
+  padding: 1rem 0;
+
+  @media screen and (max-width: 768px) {
+    padding: 0.5rem 0;
+  }
+}
+
+.inputGroup {
+  margin-bottom: 1rem;
+
+  span {
+    font-size: 0.9rem;
+    display: block;
+    margin-bottom: 0.25rem;
+    color: #333;
+
+    @media screen and (max-width: 480px) {
+      font-size: 0.85rem;
+    }
+  }
+
+  input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    box-sizing: border-box;
+    
+    @media screen and (max-width: 768px) {
+      margin-right: 0;
+      padding: 0.75rem;
+      font-size: 1rem;
+    }
+
+    @media screen and (max-width: 480px) {
+      padding: 0.6rem;
+      font-size: 0.9rem;
+      border-radius: 6px;
+    }
+
+    &::placeholder {
+      color: #999;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: #FF5722;
+    }
+  }
 }
 
 .welcomeText {
@@ -36,14 +117,40 @@
   justify-content: right; 
   color: #fff;
   font-size: x-large;
-  height: fit-content; 
-}
-.header {
-  padding: 1rem;
-  text-align: right;
-  margin-top: 36px;
+  height: fit-content;
 
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
+}
+
+.header {
+  padding: 0.5rem;
+  text-align: right;
+  margin-bottom: 1rem;
   border-bottom: 1px solid #eee;
+
+  @media screen and (max-width: 768px) {
+    padding: 0.5rem;
+    margin-bottom: 0;
+    border-bottom: none;
+  }
+}
+
+.mobileTitle {
+  display: none;
+  margin: 0;
+  padding: 1rem 0;
+  text-align: center;
+  font-size: 1.75rem;
+  color: #333;
+  border-bottom: 1px solid #eee;
+
+  @media screen and (max-width: 768px) {
+    display: block;
+    font-size: 1.5rem;
+    padding: 0.75rem 0;
+  }
 }
 
 .signInLink {
@@ -56,15 +163,16 @@
   }
 }
 
-.formContent {
-  padding: 2rem;
-}
-
 .title {
   font-size: 1.5rem;
   font-weight: 600;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   color: #333;
+
+  @media screen and (max-width: 768px) {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
 }
 
 .form {
@@ -77,49 +185,31 @@
 .nameFields {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 3rem; 
+  gap: 1rem;
+
+  @media screen and (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
 }
+
 .passwordFields {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 3rem;
- 
-}
+  gap: 1rem;
 
-
-.inputGroup {
-  span {
-    font-size: 0.9rem;
-    margin-right: 30px;
-    margin-top: 5px;
-    margin-bottom: 10px;
-    padding-bottom: 0.75rem;
-  }
-  input {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    font-size: 0.9rem;
-    margin-right: 30px;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    
-
-    &::placeholder {
-      color: #999;
-    }
-
-    &:focus {
-      outline: none;
-      border-color: #FF5722;
-    }
-
+  @media screen and (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
   }
 }
 
 .termsGroup {
   margin-top: 1rem;
+
+  @media screen and (max-width: 768px) {
+    margin-top: 0.5rem;
+  }
 }
 
 .checkbox {
@@ -148,34 +238,53 @@
   color: #ff3333;
   background-color: #fff5f5;
   padding: 10px;
-  border-radius: 4px;
+  border-radius: 8px;
   margin-bottom: 15px;
   font-size: 14px;
   text-align: center;
+
+  @media screen and (max-width: 768px) {
+    padding: 8px;
+    margin-bottom: 10px;
+    font-size: 13px;
+  }
 }
 
 .success {
   color: #22c55e;
   background-color: #f0fdf4;
   padding: 10px;
-  border-radius: 4px;
+  border-radius: 8px;
   margin-bottom: 15px;
   font-size: 14px;
   text-align: center;
+
+  @media screen and (max-width: 768px) {
+    padding: 8px;
+    margin-bottom: 10px;
+    font-size: 13px;
+  }
 }
 
 .submitButton {
   background-color: #FF5722;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   padding: 0.75rem;
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
   margin-top: 1rem;
-  margin-bottom: 3rem;
-  width: 103%;
+  margin-bottom: 1.5rem;
+  width: 100%;
+  transition: background-color 0.2s ease;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    margin-bottom: 2rem;
+    font-size: 1rem;
+  }
 
   &:hover {
     background-color: darken(#FF5722, 5%);

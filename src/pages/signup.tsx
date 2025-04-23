@@ -102,6 +102,7 @@ export default function Signup() {
               </Link>
             </span>
           </div>
+          <h1 className={styles.mobileTitle}>Welcome to Keeping Faith</h1>
 
           <div className={styles.formContent}>
             <h1 className={styles.title}>Create Your Account</h1>
