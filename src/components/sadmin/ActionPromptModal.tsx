@@ -1,5 +1,6 @@
 import { IoCloseSharp } from "react-icons/io5";
-import styles from "../../styles/updateuser.module.scss";
+// import styles from "../../styles/updateuser.module.scss";
+import styles from "../../styles/ActionPromptModal.module.scss";
 import Modal from "@/components/common/Modal";
 
 interface Props {
